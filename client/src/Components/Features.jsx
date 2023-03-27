@@ -1,6 +1,11 @@
+import { useNavigate } from "react-router-dom"
+
 const Features = (props) => {
+
+    const navigate = useNavigate()
+
     return (
-        <div className="mt-20 w-80 flex flex-col col-span-4 gap-y-2 py-6 px-4 rounded-md shadow-2xl featureCard cursor-pointer">
+        <div onClick={() => {navigate(props.link)}} className="mt-20 w-80 flex flex-col col-span-4 gap-y-2 py-6 px-4 rounded-md shadow-2xl featureCard cursor-pointer">
             <div className="w-full overflow-hidden flex justify-center items-baseline">
                 <img className="w-16 h-16 rounded-t-md" src={props.image}/>
             </div>

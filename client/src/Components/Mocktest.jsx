@@ -1,59 +1,249 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ComboBox from "./ComboBox";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
+import Question from "./Question";
+import right from "../Images/check-mark.png"
+import wrong from "../Images/cross.png"
 
 const Mocktest = () => {
     const [start, setStart] = useState(false)
+    const [finished, setFinished] = useState(false)
     const [questionNos, setQuestionNos] = useState(false)
     const [selectedValue, setSelectedValue] = useState('');
+    const [score, setScore] = useState(0);
+    const [options, setOptions] = useState([])
+    // const [option]
+    const [requesting, setRequesting] = useState("subject")
 
-    const options = [
-        { label: 'Option 1', value: 'option1' },
-        { label: 'Option 2', value: 'option2' },
-        { label: 'Option 3', value: 'option3' },
-    ];
+    useEffect(() => {
+        getSubjects()
+    }, [])
+
+    const getSubjects = async () => {
+        const response = await fetch("http://localhost:1447/api/getquestions", {
+            method: "POST",
+            //sends the data in json format
+            headers: {
+                "Content-Type": "application/json"
+            },
+            //sends the states to the server
+            body: JSON.stringify({
+                requesting
+            })
+        })
+        const answer = await response.json();
+        const newOptions = []
+        for(let i = 0; i < answer.data.length; i++)
+        {
+            const labelValue = {}
+            labelValue.label = answer.data[i]
+            labelValue.value = answer.data[i]
+            newOptions.push(labelValue)
+        }
+        setOptions(newOptions)
+
+    }
+
+    
+
+    const [selectedAnswers, setSelectedAnswers] = useState({});
+    const [wrongAnswers, setWrongAnswers] = useState([]);
+    const [submitted, setSubmitted] = useState(false);
+    const [error, setError] = useState({});
+
+    const questions = [
+        {
+            _id: 1,
+            question: 'What is the capital of France?',
+            options: ['London', 'Paris', 'Madrid', 'Rome'],
+            correctAnswer: 'Paris',
+        },
+        {
+            _id: 2,
+            question: 'What is the largest country in the world?',
+            options: ['Russia', 'Canada', 'China', 'United States'],
+            correctAnswer: 'Russia',
+        },
+        {
+            _id: 3,
+            question: 'What is the currency of Japan?',
+            options: ['Yen', 'Dollar', 'Euro', 'Pound'],
+            correctAnswer: 'Yen',
+        },
+    ]
 
     const handleValueChange = (value) => {
         setSelectedValue(value);
-    };
-
-    const OnStartSubmit = async(event) => {
-        event.preventDefault()
-        setStart(true)
     }
 
+    const handleAnswerSelect = (questionID, answer) => {
+        //sets the selected answer everytime the user clicks a radio button of a question
+        const newSelectedAnswers = { ...selectedAnswers }
+        newSelectedAnswers[questionID] = answer
+        setSelectedAnswers(newSelectedAnswers)
+
+        const question = questions.find((q) => q._id == questionID)
+        const newWrongAnswers = [...wrongAnswers]
+
+
+        //checks and stores the wrong answer in array
+        if (question.correctAnswer !== answer) {
+            //checks to see if the user has already gave a wrong answer and to replace it with the recent one
+            if (newWrongAnswers.find((q) => q.q_ID == questionID)) {
+                const index = newWrongAnswers.indexOf(newWrongAnswers.find((q) => q.q_ID == questionID))
+                newWrongAnswers[index].selectedAnswer = answer
+            }
+            else {
+                newWrongAnswers.push({
+                    q_ID: question._id,
+                    question: question.question,
+                    selectedAnswer: answer,
+                    correctAnswer: question.correctAnswer
+                })
+
+            }
+            setWrongAnswers(newWrongAnswers)
+            if (newSelectedAnswers[questionID]) {
+                delete newSelectedAnswers[questionID]
+                console.log(newSelectedAnswers)
+                setSelectedAnswers(newSelectedAnswers)
+            }
+        }
+        // to remove the wrong response if the user has corrected it
+        else if (newWrongAnswers.find((q) => q.q_ID == questionID)) {
+            const i = newWrongAnswers.indexOf(newWrongAnswers.find((q) => q.q_ID == questionID))
+            newWrongAnswers.splice(i, 1)
+            setWrongAnswers(newWrongAnswers)
+        }
+
+    }
+
+    const checkAnswers = () => {
+        let newscore = 0
+        for (let i = 0; i < Object.keys(selectedAnswers).length; i++) {
+            const selectedAnswer = Object.values(selectedAnswers)[i]
+            const question = questions.find((q) => q._id == Object.keys(selectedAnswers)[i])
+            if (selectedAnswer === question.correctAnswer) {
+                newscore++
+            }
+        }
+        setScore(newscore)
+    }
+
+    const onFinished = async (event) => {
+        event.preventDefault()
+        if ((Object.keys(selectedAnswers).length + wrongAnswers.length) != questions.length) {
+            const newError = { ...error }
+            newError.message = "Please attempt all the questions"
+            newError.style = "text-red-600 text-lg"
+            setError(newError)
+        }
+        else {
+            checkAnswers()
+            setFinished(true)
+        }
+    }
+
+    const OnStartSubmit = async (event) => {
+        event.preventDefault()
+        if (selectedValue == "" || questionNos == "") {
+            const newError = { ...error }
+            newError.message = "Please input all the required fields"
+            newError.style = "text-red-600 text-lg"
+            setError(newError)
+        }
+        else {
+            setError({})
+            setStart(true)
+        }
+    }
+
+
     return (
-        <>
-            <div className="px-20 w-full">
+        <div>
+            <div className="px-20 w-full mb-0">
                 <Navbar />
                 {start ?
                     (
                         <>
+                            {finished ?
+                                (
+                                    //displays the result
+                                    <div className="w-full flex-col flex justify-center mt-14">
+                                        <div className="flex flex-col gap-y-4 text-center font-sans tracking-tighter w-full">
+                                            <div className="flex gap-x-3 font-bold w-full justify-center">
+                                                <span className="text-5xl">You got </span>
+                                                <span className="text-5xl text-blue-700"> {((score / questions.length) * 100).toFixed(1)}%</span>
+                                            </div>
+                                            <div className="text-xl justify-center w-full">{score} out of {questions.length} answers were correct in {selectedValue}</div>
+                                        </div>
+
+                                        <div className="flex flex-col gap-y-11 mt-20">
+                                            {wrongAnswers.map((result, i) => (
+                                                <div key={result.selectedAnswer + i}>
+                                                    <div className="flex flex-row items-center w-max gap-x-6">
+                                                        <div className="lato text-lg">{i + 1}.</div>
+                                                        <div className="lato text-lg">{result.question}</div>
+                                                    </div>
+                                                    <div className="flex flex-col mt-3 gap-y-2">
+                                                        <div className="flex flex-row lato text-lg items-center gap-x-5">
+                                                            <img src={wrong} className="w-5 h-5" />
+                                                            <div className="underline decoration-double underline-offset-4 decoration-red-600">
+                                                                {result.selectedAnswer}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex flex-row lato text-lg items-center gap-x-5">
+                                                            <img src={right} className="w-5 h-5" />
+                                                            <div>
+                                                                {result.correctAnswer}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )
+                                :
+                                (
+                                    <form onSubmit={onFinished} className="flex flex-col gap-y-11 mt-10 pl-5">
+                                        <div className="w-full text-center text-2xl tracking-tighter">{selectedValue}</div>
+                                        {questions.map((question, i) => (
+                                            <Question key={i} question={question} questionNo={i + 1} nameGroup={question._id} handleOption={handleAnswerSelect} />
+                                        ))}
+                                        <button className="w-36 h-11 bg-blue-700 text-white spacegrotesk" type="submit">Submit</button>
+                                        <div className={error.style}>{error.message}</div>
+                                    </form>
+                                )}
+
                         </>
+
                     )
                     :
                     (<div className="flex justify-center items-center mt-20">
                         <div className="p-5 w-1/2 flex flex-col gap-y-12">
                             <div className="text-4xl font-sans font-extrabold tracking-tight text-gray-900 w-full flex">Practice Mock Test</div>
-                            <div onSubmit={OnStartSubmit} className="flex flex-col gap-x-4 gap-y-9 text-lg">
-                                <div className="flex justify-between">  
+                            <form onSubmit={OnStartSubmit} className="flex flex-col gap-x-4 gap-y-9 text-lg">
+                                <div className="flex justify-between">
                                     <label className="">Subject: </label>
                                     <ComboBox options={options} selectedValue={selectedValue} onValueChange={handleValueChange} />
                                 </div>
-                                <div className="flex justify-between gap-x-5">  
+                                <div className="flex justify-between gap-x-5">
                                     <label className="" >No of questions: </label>
-                                    <input type="number" className="border border-black py-2 px-3 w-80" value={questionNos} onChange={(e) => setQuestionNos(e.target.value)}/>
+                                    <input type="number" className="border border-black py-2 px-3 w-80" value={questionNos} onChange={(e) => setQuestionNos(e.target.value)} />
                                 </div>
                                 <button type="submit" className='border w-2/6 h-10 bg-blue-700 spacegrotesk text-sm text-white'>Start</button>
-                            </div>
+                            </form>
+                            <div className={error.style}>{error.message}</div>
                         </div>
                     </div>)
                 }
             </div>
-            <Footer/>
-        </>
-        
+
+            <Footer />
+        </div>
+
     );
 }
 

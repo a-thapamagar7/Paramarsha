@@ -74,7 +74,7 @@ const Homepage = () => {
                         <span className="text-blue-700">Offer</span>
                     </div>
                     <div className="w-full grid grid-cols-12">
-                        <Features name="Mock Tests" details="User will be able to take mock test or exams for preparation of certain courses which require entrance examination." premium="For premium users only, Join Us" image={test}/>
+                        <Features link="/test" name="Mock Tests" details="User will be able to take mock test or exams for preparation of certain courses which require entrance examination." premium="For premium users only, Join Us" image={test}/>
                         <Features name="Meeting with Counselors" details="User will be able to take advice from professional counselors to help them gain proper guidance and support." premium="For premium users only, Join Us" image={call}/>
                         <Features name="Quiz" details="User will be able to take a quiz which will be able to recommend students a course which may be suitable for them according to our system." image={quiz}/>
                         <Features name="Review System" details="User will be able rate the rate the colleges on the basis of different factors which will be later rounded to give an overall rating." image={review}/>

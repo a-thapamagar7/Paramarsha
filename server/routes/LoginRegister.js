@@ -21,7 +21,7 @@ router.post("/register", async (req, res) => {
             email: req.body.email,
             password: newPassword,
         })
-        return res.json({ status: "ok" })
+        return res.json({ status: "success", message: "data_added" })
     } catch (err) {
         return res.json({ status: "error", error: "Duplicate email" })
     }
@@ -80,6 +80,29 @@ router.post('/quote', async (req, res) => {
     } catch (error) {
         console.log(error)
         res.json({ status: 'error', error: 'invalid token' })
+    }
+})
+
+router.post("/createmock", async (req, res) => {
+    const { subject, question, answer, option } = req.body
+    //checking if the email and password is
+    if (!subject || !question || !answer || !option )
+        return res.json({ status: "error", error: "All the fields are required" })
+    const user = await User.findOne({
+        email: req.body.email
+    })
+    if (!user) res.json({ status: "error", error: "User not found" })
+
+    const isPasswordValid = await bcrypt.compare(req.body.password, user.password)
+    if (isPasswordValid) {
+        const token = jwt.sign({
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+        }, "secret123")
+        return res.json({ status: "ok", user: token })
+    } else {
+        return res.json({ status: "error", user: false })
     }
 })
 

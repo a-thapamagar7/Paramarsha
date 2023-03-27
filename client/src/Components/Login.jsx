@@ -28,7 +28,7 @@ const Login = () => {
         if (data.user) {
             localStorage.setItem("token", data.user)
             alert("Login sucessful")
-            navigate("/dashboard")
+            navigate("/")
         } else {
             alert("Please check your username and password")
         }

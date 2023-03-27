@@ -15,7 +15,7 @@ const Collegesection = () => {
                         <span className="text-blue-700">Colleges</span>
                     </div>
                     <div className="mt-3 w-max text-lg text-gray-500">
-                        Explore some of the best collegs from around the country with our curated list
+                        Explore some of the best colleges from around the country with our curated list
                     </div>
                 </div>
                 <div className="text-gray-500 text-lg">

@@ -7,7 +7,7 @@ import Contentcards from "./Contentcards";
 const Universitysection = () => {
     return (
         <div className="w-full flex flex-col mt-28 gap-y-7">
-            <div className="mb-10 flex flex-row items-end" style={{justifyContent: "space-between"}}>
+            <div className="mb-10 flex flex-row items-end" style={{ justifyContent: "space-between" }}>
                 <div className="">
                     <div className="text-5xl font-sans font-extrabold tracking-tight text-gray-900">
                         <span className="">Discover </span>
