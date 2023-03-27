@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express")
 const app = express()
 const cors = require("cors")
@@ -10,7 +11,7 @@ app.use(cors())
 //convert body to json
 app.use(express.json())
 
-mongoose.connect("mongodb+srv://ayush:ayush@cluster0.kkcnx41.mongodb.net/test", {
+mongoose.connect(process.env.mongo_URI, {
     useNewUrlParser: true,
 })
 
