@@ -5,6 +5,7 @@ const cors = require("cors")
 const mongoose = require("mongoose")
 const loginRegister = require("./routes/LoginRegister")
 const createQuestion = require("./routes/Mocktest")
+const subject = require("./routes/Subject")
 
 //allows communication between ports
 app.use(cors())
@@ -20,6 +21,9 @@ app.use("/api", loginRegister)
 
 // for the mock test
 app.use("/api", createQuestion)
+
+// for the subject
+app.use("/api", subject)
 
 
 app.listen(1447, () => {

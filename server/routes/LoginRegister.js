@@ -5,7 +5,6 @@ const bcrypt = require("bcrypt")
 const router = express.Router()
 
 router.post("/register", async (req, res) => {
-    console.log(req.body)
     const { fName, lName, email, password } = req.body
     //checking if the email and password is
     if (!fName || !lName || !email || !password)
@@ -60,7 +59,6 @@ router.get('/quote', async (req, res) => {
 
         return res.json({ status: 'ok', quote: user.quote })
     } catch (error) {
-        console.log(error)
         res.json({ status: 'error', error: 'invalid token' })
     }
 })
@@ -78,7 +76,6 @@ router.post('/quote', async (req, res) => {
 
         return res.json({ status: 'ok' })
     } catch (error) {
-        console.log(error)
         res.json({ status: 'error', error: 'invalid token' })
     }
 })

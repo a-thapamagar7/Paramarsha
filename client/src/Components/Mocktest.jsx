@@ -5,22 +5,43 @@ import Navbar from "./Navbar";
 import Question from "./Question";
 import right from "../Images/check-mark.png"
 import wrong from "../Images/cross.png"
+import { capitalizeFirstLetter } from "../utils/formatter";
 
 const Mocktest = () => {
+    const wrongError = "text-red-600 text-lg"
     const [start, setStart] = useState(false)
     const [finished, setFinished] = useState(false)
-    const [questionNos, setQuestionNos] = useState(false)
-    const [selectedValue, setSelectedValue] = useState('');
+    const [questionNos, setQuestionNos] = useState(0)
+    const [selectedSubject, setSelectedSubject] = useState('');
     const [score, setScore] = useState(0);
     const [options, setOptions] = useState([])
-    // const [option]
-    const [requesting, setRequesting] = useState("subject")
 
     useEffect(() => {
         getSubjects()
     }, [])
 
     const getSubjects = async () => {
+        const response = await fetch("http://localhost:1447/api/getquestions", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        const answer = await response.json();
+
+        const newOptions = []
+        for (let i = 0; i < answer.data.length; i++) {
+            const labelValue = {}
+            labelValue.label = capitalizeFirstLetter(answer.data[i])
+            labelValue.value = answer.data[i]
+            newOptions.push(labelValue)
+        }
+
+        setOptions(newOptions)
+    }
+
+    const askQuestions = async () => {
         const response = await fetch("http://localhost:1447/api/getquestions", {
             method: "POST",
             //sends the data in json format
@@ -29,52 +50,54 @@ const Mocktest = () => {
             },
             //sends the states to the server
             body: JSON.stringify({
-                requesting
+                selectedSubject,
+                questionNos
             })
         })
         const answer = await response.json();
-        const newOptions = []
-        for(let i = 0; i < answer.data.length; i++)
-        {
-            const labelValue = {}
-            labelValue.label = answer.data[i]
-            labelValue.value = answer.data[i]
-            newOptions.push(labelValue)
+        if (!answer.data) {
+            error.message = "There was an error fetching data"
+            error.style = wrongError
         }
-        setOptions(newOptions)
-
+        else {
+            const newQuestions = answer.data
+            console.log(newQuestions)
+            setQuestions(newQuestions)
+            setStart(true)
+        }
     }
 
-    
+
 
     const [selectedAnswers, setSelectedAnswers] = useState({});
     const [wrongAnswers, setWrongAnswers] = useState([]);
     const [submitted, setSubmitted] = useState(false);
     const [error, setError] = useState({});
+    const [questions, setQuestions] = useState([]);
 
-    const questions = [
-        {
-            _id: 1,
-            question: 'What is the capital of France?',
-            options: ['London', 'Paris', 'Madrid', 'Rome'],
-            correctAnswer: 'Paris',
-        },
-        {
-            _id: 2,
-            question: 'What is the largest country in the world?',
-            options: ['Russia', 'Canada', 'China', 'United States'],
-            correctAnswer: 'Russia',
-        },
-        {
-            _id: 3,
-            question: 'What is the currency of Japan?',
-            options: ['Yen', 'Dollar', 'Euro', 'Pound'],
-            correctAnswer: 'Yen',
-        },
-    ]
+    // const questions = [
+    //     {
+    //         _id: 1,
+    //         question: 'What is the capital of France?',
+    //         options: ['London', 'Paris', 'Madrid', 'Rome'],
+    //         answer: 'Paris',
+    //     },
+    //     {
+    //         _id: 2,
+    //         question: 'What is the largest country in the world?',
+    //         options: ['Russia', 'Canada', 'China', 'United States'],
+    //         answer: 'Russia',
+    //     },
+    //     {
+    //         _id: 3,
+    //         question: 'What is the currency of Japan?',
+    //         options: ['Yen', 'Dollar', 'Euro', 'Pound'],
+    //         answer: 'Yen',
+    //     },
+    // ]
 
     const handleValueChange = (value) => {
-        setSelectedValue(value);
+        setSelectedSubject(value);
     }
 
     const handleAnswerSelect = (questionID, answer) => {
@@ -88,7 +111,7 @@ const Mocktest = () => {
 
 
         //checks and stores the wrong answer in array
-        if (question.correctAnswer !== answer) {
+        if (question.answer !== answer) {
             //checks to see if the user has already gave a wrong answer and to replace it with the recent one
             if (newWrongAnswers.find((q) => q.q_ID == questionID)) {
                 const index = newWrongAnswers.indexOf(newWrongAnswers.find((q) => q.q_ID == questionID))
@@ -99,7 +122,7 @@ const Mocktest = () => {
                     q_ID: question._id,
                     question: question.question,
                     selectedAnswer: answer,
-                    correctAnswer: question.correctAnswer
+                    answer: question.answer
                 })
 
             }
@@ -124,7 +147,7 @@ const Mocktest = () => {
         for (let i = 0; i < Object.keys(selectedAnswers).length; i++) {
             const selectedAnswer = Object.values(selectedAnswers)[i]
             const question = questions.find((q) => q._id == Object.keys(selectedAnswers)[i])
-            if (selectedAnswer === question.correctAnswer) {
+            if (selectedAnswer === question.answer) {
                 newscore++
             }
         }
@@ -136,7 +159,7 @@ const Mocktest = () => {
         if ((Object.keys(selectedAnswers).length + wrongAnswers.length) != questions.length) {
             const newError = { ...error }
             newError.message = "Please attempt all the questions"
-            newError.style = "text-red-600 text-lg"
+            newError.style = wrongError
             setError(newError)
         }
         else {
@@ -147,15 +170,15 @@ const Mocktest = () => {
 
     const OnStartSubmit = async (event) => {
         event.preventDefault()
-        if (selectedValue == "" || questionNos == "") {
+        if (selectedSubject == "" || questionNos == "") {
             const newError = { ...error }
             newError.message = "Please input all the required fields"
-            newError.style = "text-red-600 text-lg"
+            newError.style = wrongError
             setError(newError)
         }
         else {
             setError({})
-            setStart(true)
+            askQuestions()
         }
     }
 
@@ -176,7 +199,7 @@ const Mocktest = () => {
                                                 <span className="text-5xl">You got </span>
                                                 <span className="text-5xl text-blue-700"> {((score / questions.length) * 100).toFixed(1)}%</span>
                                             </div>
-                                            <div className="text-xl justify-center w-full">{score} out of {questions.length} answers were correct in {selectedValue}</div>
+                                            <div className="text-xl justify-center w-full">{score} out of {questions.length} answers were correct in {selectedSubject}</div>
                                         </div>
 
                                         <div className="flex flex-col gap-y-11 mt-20">
@@ -196,7 +219,7 @@ const Mocktest = () => {
                                                         <div className="flex flex-row lato text-lg items-center gap-x-5">
                                                             <img src={right} className="w-5 h-5" />
                                                             <div>
-                                                                {result.correctAnswer}
+                                                                {result.answer}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -208,7 +231,7 @@ const Mocktest = () => {
                                 :
                                 (
                                     <form onSubmit={onFinished} className="flex flex-col gap-y-11 mt-10 pl-5">
-                                        <div className="w-full text-center text-2xl tracking-tighter">{selectedValue}</div>
+                                        <div className="w-full text-center text-2xl tracking-tighter">{capitalizeFirstLetter(selectedSubject)}</div>
                                         {questions.map((question, i) => (
                                             <Question key={i} question={question} questionNo={i + 1} nameGroup={question._id} handleOption={handleAnswerSelect} />
                                         ))}
@@ -227,7 +250,7 @@ const Mocktest = () => {
                             <form onSubmit={OnStartSubmit} className="flex flex-col gap-x-4 gap-y-9 text-lg">
                                 <div className="flex justify-between">
                                     <label className="">Subject: </label>
-                                    <ComboBox options={options} selectedValue={selectedValue} onValueChange={handleValueChange} />
+                                    <ComboBox options={options} selectedSubject={selectedSubject} onValueChange={handleValueChange} />
                                 </div>
                                 <div className="flex justify-between gap-x-5">
                                     <label className="" >No of questions: </label>

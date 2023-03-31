@@ -27,23 +27,42 @@ const Homepage = () => {
     const navigate = useNavigate()
     const [imageUrls] = useState([mainImage, mainImage1, mainImage2, mainImage3, mainImage4]);
     const [currentIndex, setCurrentIndex] = useState(0);
-    
+    const [subject, setSubject] = useState([])
+
 
     function updateIndex() {
         setCurrentIndex(currentIndex => (currentIndex + 1) % imageUrls.length);
     }
 
     useEffect(() => {
+        getSubjects()
         const intervalId = setInterval(updateIndex, 1200); // Change image every 5 seconds
         return () => clearInterval(intervalId); // Clean up the interval timer
+
+
     }, []);
+
+    const getSubjects = async () => {
+        const response = await fetch("http://localhost:1447/api/getsubjects", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        const answer = await response.json();
+        setSubject(answer.data)
+    }
+
+
+
 
 
 
     return (
         <>
             <div className="px-20">
-            {/* Navbar section */}
+                {/* Navbar section */}
                 <Navbar />
                 <div className="w-full h-full maincard flex flex-row gap-10">
                     <div className="pt-14 flex flex-col w-7/12 gap-y-2">
@@ -74,11 +93,11 @@ const Homepage = () => {
                         <span className="text-blue-700">Offer</span>
                     </div>
                     <div className="w-full grid grid-cols-12">
-                        <Features link="/test" name="Mock Tests" details="User will be able to take mock test or exams for preparation of certain courses which require entrance examination." premium="For premium users only, Join Us" image={test}/>
-                        <Features name="Meeting with Counselors" details="User will be able to take advice from professional counselors to help them gain proper guidance and support." premium="For premium users only, Join Us" image={call}/>
-                        <Features name="Quiz" details="User will be able to take a quiz which will be able to recommend students a course which may be suitable for them according to our system." image={quiz}/>
-                        <Features name="Review System" details="User will be able rate the rate the colleges on the basis of different factors which will be later rounded to give an overall rating." image={review}/>
-                        <Features name="Colleges and Courses" details="User will be able to access information about the vast number of colleges, courses and univesities of Nepal." image={college}/>
+                        <Features link="/test" name="Mock Tests" details="User will be able to take mock test or exams for preparation of certain courses which require entrance examination." premium="For premium users only, Join Us" image={test} />
+                        <Features name="Meeting with Counselors" details="User will be able to take advice from professional counselors to help them gain proper guidance and support." premium="For premium users only, Join Us" image={call} />
+                        <Features name="Quiz" details="User will be able to take a quiz which will be able to recommend students a course which may be suitable for them according to our system." image={quiz} />
+                        <Features name="Review System" details="User will be able rate the rate the colleges on the basis of different factors which will be later rounded to give an overall rating." image={review} />
+                        <Features name="Colleges and Courses" details="User will be able to access information about the vast number of colleges, courses and univesities of Nepal." image={college} />
                     </div>
                 </div>
 
@@ -88,21 +107,18 @@ const Homepage = () => {
                         <span className="text-blue-700">jects</span>
                     </div>
                     <div className="w-full grid grid-cols-12">
-                        <Subjectcard name="IT" image={book}/>
-                        <Subjectcard name="Business" image={book}/>
-                        <Subjectcard name="Multimedia" image={book}/>
-                        <Subjectcard name="Medical" image={book}/>
-                        <Subjectcard name="Arts" image={book}/>
-                        <Subjectcard name="Engineering" image={book}/>
-                        <Subjectcard name="Engineering" image={book}/>
-                        <Subjectcard name="Engineering" image={book}/>
-                        <Subjectcard name="Engineering" image={book}/>
+                        {subject.map((value, index) => {
+                            return(
+                                <Subjectcard name={value} key={index} />
+                            )
+                            
+                        })}
                     </div>
                 </div>
-                <Collegesection/>
-                <Universitysection/>
+                <Collegesection />
+                <Universitysection />
             </div>
-        <Footer className="mt-20"/>
+            <Footer className="mt-20" />
         </>
     );
 }

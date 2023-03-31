@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
 import ComboBox from './ComboBox';
 import Footer from './Footer';
@@ -8,7 +8,7 @@ import Question from './Question';
 const CreateMockTest = () => {
 
     const navigate = useNavigate()
-    const options = [
+    const methodOptions = [
         { label: 'One at a time', value: "one" },
         { label: 'Mutiple at a time', value: "many" },
     ]
@@ -21,7 +21,7 @@ const CreateMockTest = () => {
     const [multiQuestionArray, setMultiQuestionArray] = useState("")
     const [multiAdded, setMultiAdded] = useState(false)
     const [answer, setAnswer] = useState("")
-    const [option, setOption] = useState(["", "", ""])
+    const [options, setOptions] = useState(["", "", ""])
     const [error, setError] = useState({});
     const [forShow, setForShow] = useState({});
     const [added, setAdded] = useState(false);
@@ -61,6 +61,7 @@ const CreateMockTest = () => {
                 }
                 else if (random[j].substring(0, 5) === "(ans)") {
                     newQuestion.answer = random[j].slice(5)
+                    newOptions.push(random[j].slice(5))
                 }
                 else if (random[j].substring(0, 5) === "(opt)") {
                     newOptions.push(random[j].slice(5))
@@ -71,7 +72,7 @@ const CreateMockTest = () => {
             newMutiQuestionArray.push(newQuestion)
         }
         setMultiQuestionArray(newMutiQuestionArray)
-        createMultiQuestion()
+        createMultiQuestion(newMutiQuestionArray)
         setMultiQuestions("")
     }
 
@@ -83,9 +84,8 @@ const CreateMockTest = () => {
         }
     }
 
-    const createMultiQuestion = async () => {
-        const type = "multi"
-        const response = await fetch("http://localhost:1447/api/createquestion", {
+    const createMultiQuestion = async (multiArray) => {
+        const response = await fetch("http://localhost:1447/api/createquestion/many", {
             method: "POST",
             //sends the data in json format
             headers: {
@@ -93,13 +93,12 @@ const CreateMockTest = () => {
             },
             //sends the states to the server
             body: JSON.stringify({
-                type,
-                multiQuestionArray
+                multiArray
             })
         })
 
         const data = await response.json()
-        console.log(data)
+        console.log(data.message)
         if (data.message == "data_added") {
             const newError = { ...error }
             newError.message = "The questions have been sucessfully added"
@@ -114,8 +113,7 @@ const CreateMockTest = () => {
     }
 
     const createQuestion = async () => {
-        const type = "one"
-        const response = await fetch("http://localhost:1447/api/createquestion", {
+        const response = await fetch("http://localhost:1447/api/createquestion/one", {
             method: "POST",
             //sends the data in json format
             headers: {
@@ -123,11 +121,10 @@ const CreateMockTest = () => {
             },
             //sends the states to the server
             body: JSON.stringify({
-                type,
                 question,
                 subject,
                 answer,
-                option
+                options
             })
         })
 
@@ -163,14 +160,14 @@ const CreateMockTest = () => {
     }
 
     const onOption = (index, e) => {
-        const newOption = [...option]
+        const newOption = [...options]
         newOption[index] = e.target.value
-        setOption(newOption)
+        setOptions(newOption)
     }
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        if (!subject || !question || !answer || checkNull(option)) {
+        if (!subject || !question || !answer || checkNull(options)) {
 
             const newError = { ...error }
             newError.message = "Please fill all required fields"
@@ -182,14 +179,14 @@ const CreateMockTest = () => {
             createQuestion()
             const newShow = {}
             newShow.question = question
-            newShow.options = option
+            newShow.options = options
             newShow.options.push(answer)
             setForShow(newShow)
 
             setAnswer("")
             setQuestion("")
             setSubject("")
-            setOption(["", "", ""])
+            setOptions(["", "", ""])
             setAdded(true)
         }
     }
@@ -208,13 +205,13 @@ const CreateMockTest = () => {
                                 <form onSubmit={OnStartSubmit} className="flex flex-col gap-x-4 gap-y-7 text-lg">
                                     <div className="flex justify-between">
                                         <label className="">Method: </label>
-                                        <ComboBox options={options} selectedValue={selectedValue} onValueChange={handleValueChange} />
+                                        <ComboBox options={methodOptions} selectedValue={selectedValue} onValueChange={handleValueChange} />
                                     </div>
                                     <button type="submit" className='border w-2/6 h-10 bg-blue-700 spacegrotesk text-sm text-white'>Start</button>
-                                   
+
                                 </form>
                             </div>
-                            
+
                         </div>
                     )
                     :
@@ -282,15 +279,15 @@ const CreateMockTest = () => {
                                                 </div>
                                                 <div className='flex flex-row gap-x-6 items-center'>
                                                     <label className={forHeading + ""}>Option:</label>
-                                                    <input value={option[0]} onChange={(e) => onOption(0, e)} placeholder='Option' className='border-black text-sm borderM question1 w-1/2 py-3 px-6' />
+                                                    <input value={options[0]} onChange={(e) => onOption(0, e)} placeholder='Option' className='border-black text-sm borderM question1 w-1/2 py-3 px-6' />
                                                 </div>
                                                 <div className='flex flex-row gap-x-6 items-center'>
                                                     <label className={forHeading + ""}>Option:</label>
-                                                    <input value={option[1]} onChange={(e) => onOption(1, e)} placeholder='Option' className='border-black text-sm borderM question1 w-1/2 py-3 px-6' />
+                                                    <input value={options[1]} onChange={(e) => onOption(1, e)} placeholder='Option' className='border-black text-sm borderM question1 w-1/2 py-3 px-6' />
                                                 </div>
                                                 <div className='flex flex-row gap-x-6 items-center'>
                                                     <label className={forHeading + ""}>Option:</label>
-                                                    <input value={option[2]} onChange={(e) => onOption(2, e)} placeholder='Option' className='border-black text-sm borderM question1 w-1/2 py-3 px-6' />
+                                                    <input value={options[2]} onChange={(e) => onOption(2, e)} placeholder='Option' className='border-black text-sm borderM question1 w-1/2 py-3 px-6' />
                                                 </div>
                                                 <button type='submit' className='border w-2/12 h-14  bg-blue-700 spacegrotesk text-white mt-6 text-sm'>Submit</button>
                                                 <div className={error.style}>{error.message}</div>

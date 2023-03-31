@@ -8,66 +8,86 @@ const checkNull = (arr) => {
     }
 }
 
-router.post("/createquestion", async (req, res) => {
-    let type = req.body.type
-    if (type == "one") {
-        const { type, question, subject, answer, option } = req.body
-        //checking if the email and password is
-        if (!question || !subject || !answer || checkNull(option))
-            return res.json({ error: "input_empty", msg: "Required field is empty" })
+router.post("/createquestion/one", async (req, res) => {
+    const { question, subject, answer, options } = req.body
+    //checking if the email and password is
+    if (!question || !subject || !answer || checkNull(options))
+        return res.json({ error: "input_empty", msg: "Required field is empty" })
 
-        try {
-            await Question.create({
-                question: req.body.question,
-                subject: req.body.subject,
-                answer: req.body.answer,
-                option: req.body.option,
-            })
-            return res.json({ status: "success", message: "data_added" })
-        } catch (err) {
-            console.log("error")
-            return res.json({ status: "error", message: "There is an error" })
-
-        }
-    }
-    else if (type == "multi") {
-
-        const { type, multiQuestionArray } = req.body
-        // try {
-        for (let i = 0; i < multiQuestionArray.length; i++) {
-            await Question.create({
-                question: multiQuestionArray[i].question,
-                subject: multiQuestionArray[i].subject,
-                answer: multiQuestionArray[i].answer,
-                option: multiQuestionArray[i].options,
-            })
-        }
-
+    try {
+        await Question.create({
+            question: req.body.question,
+            subject: req.body.subject,
+            answer: req.body.answer,
+            options: req.body.options,
+        })
         return res.json({ status: "success", message: "data_added" })
-        // } catch (err) {
-        //     console.log("error")
-        //     return res.json({ status: "error", message: "There is an error" })
+    } catch (err) {
+        return res.json({ status: "error", message: "There is an error" })
 
-        // }
     }
 })
 
-router.post("/getquestions", async (req, res) => {
-    let requesting = req.body.requesting
-    if (requesting == "subject") {
-        //checking if the email and password is
-        if (!requesting)
-            return res.json({ error: "input_empty", msg: "Required field is empty" })
 
-        try {
-            const subject = await Question.distinct("subject")
-            return res.json({ status: "success", message: "data_added", data: subject })
-        } catch (err) {
-            console.log("error")
-            return res.json({ status: "error", message: "There is an error" })
-
-        }
+router.post("/createquestion/many", async (req, res) => {
+    const { multiArray } = req.body
+    console.log(multiArray)
+    try {
+    for (let i = 0; i < multiArray.length; i++) {
+        await Question.create({
+            question: multiArray[i].question,
+            subject: multiArray[i].subject,
+            answer: multiArray[i].answer,
+            options: multiArray[i].options,
+        })
     }
+
+        return res.json({ status: "success", message: "data_added" })
+    }
+    catch (err) {
+        return res.json({ status: "error", message: "There is an error" })
+
+    }
+})
+
+router.get("/getquestions", async (req, res) => {
+    try {
+        const subject = await Question.distinct("subject")
+        return res.json({ status: "success", message: "data_added", data: subject })
+    } catch (err) {
+        return res.json({ status: "error", message: "There is an error" })
+
+    }
+
+})
+
+
+router.post("/getquestions", async (req, res) => {
+    const { selectedSubject, questionNos } = req.body
+    if (!selectedSubject || questionNos == 0)
+        return res.json({ error: "input_empty", msg: "Required field is empty" })
+    try {
+        const count = await Question.countDocuments({ myField: selectedSubject });
+        if (count < questionNos) var totalQuestion = count
+        else var totalQuestion = +questionNos
+
+        const condition = { subject: selectedSubject };
+        const pipeline = [
+            { $match: condition },
+            { $sample: { size: totalQuestion } }
+        ];
+
+        // execute the aggregation pipeline on the MyModel collection
+        const cursor = Question.aggregate(pipeline);
+        const questions = await cursor.exec();
+        return res.json({ status: "success", message: "data_added", data: questions })
+    }
+    catch {
+        return res.json({ status: "error", message: "There is an error" })
+    }
+
+
+
 
 })
 
