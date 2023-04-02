@@ -3,6 +3,7 @@ import UniversityHeader from "./UniversityHeader";
 import UniversityOverview from "./UniversityOverview";
 import UniversityPrograms from "./UniversityPrograms";
 import ace from "../Images/ace.jpg"
+import VerticalNavbar from "./VerticalNavbar";
 
 
 
@@ -58,13 +59,17 @@ const UniversityPage = () => {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <UniversityHeader university={headerData} image={ace} />
-      <div className="py-12">
-        <UniversityOverview university={overviewData} />
-        <UniversityPrograms programs={programsData} />
+    <div className="flex flex-row">
+      <VerticalNavbar/>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <UniversityHeader university={headerData} image={ace} />
+        <div className="py-12">
+          <UniversityOverview university={overviewData} />
+          <UniversityPrograms programs={programsData} />
+        </div>
       </div>
     </div>
+    
   );
 };
 

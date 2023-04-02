@@ -6,6 +6,8 @@ const mongoose = require("mongoose")
 const loginRegister = require("./routes/LoginRegister")
 const createQuestion = require("./routes/Mocktest")
 const subject = require("./routes/Subject")
+const course = require("./routes/Course")
+const university = require("./routes/University")
 
 //allows communication between ports
 app.use(cors())
@@ -24,6 +26,12 @@ app.use("/api", createQuestion)
 
 // for the subject
 app.use("/api", subject)
+
+// for the course
+app.use("/api", course)
+
+// for the university
+app.use("/api", university)
 
 
 app.listen(1447, () => {

@@ -15,6 +15,11 @@ const Mocktest = () => {
     const [selectedSubject, setSelectedSubject] = useState('');
     const [score, setScore] = useState(0);
     const [options, setOptions] = useState([])
+    const [selectedAnswers, setSelectedAnswers] = useState({});
+    const [wrongAnswers, setWrongAnswers] = useState([]);
+    const [submitted, setSubmitted] = useState(false);
+    const [error, setError] = useState({});
+    const [questions, setQuestions] = useState([]);
 
     useEffect(() => {
         getSubjects()
@@ -66,35 +71,6 @@ const Mocktest = () => {
             setStart(true)
         }
     }
-
-
-
-    const [selectedAnswers, setSelectedAnswers] = useState({});
-    const [wrongAnswers, setWrongAnswers] = useState([]);
-    const [submitted, setSubmitted] = useState(false);
-    const [error, setError] = useState({});
-    const [questions, setQuestions] = useState([]);
-
-    // const questions = [
-    //     {
-    //         _id: 1,
-    //         question: 'What is the capital of France?',
-    //         options: ['London', 'Paris', 'Madrid', 'Rome'],
-    //         answer: 'Paris',
-    //     },
-    //     {
-    //         _id: 2,
-    //         question: 'What is the largest country in the world?',
-    //         options: ['Russia', 'Canada', 'China', 'United States'],
-    //         answer: 'Russia',
-    //     },
-    //     {
-    //         _id: 3,
-    //         question: 'What is the currency of Japan?',
-    //         options: ['Yen', 'Dollar', 'Euro', 'Pound'],
-    //         answer: 'Yen',
-    //     },
-    // ]
 
     const handleValueChange = (value) => {
         setSelectedSubject(value);

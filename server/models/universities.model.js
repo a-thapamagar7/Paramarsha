@@ -5,12 +5,11 @@ const Universities = new mongoose.Schema({
     location: { type: String, required: true },
     website: { type: String, required: true },
     description: { type: String, required: true },
-    average_fee: { type: String, required: true },
-    colleges: { type: [String], required: true },
+    colleges: { type: [String] },
     courses: { type: [String], required: true },
     subjects: { type: [String], required: true },
-}, {collection: "college-data"})
+}, {collection: "university-data"})
 
-const universityModel = mongoose.model("CollegeData", Universities)
+const universityModel = mongoose.model("UniversityData", Universities)
 
 module.exports = universityModel

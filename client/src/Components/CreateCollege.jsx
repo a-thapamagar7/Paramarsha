@@ -1,17 +1,87 @@
-import { useState, react } from "react";
+import { useState, react, useEffect } from "react";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
+import { useParams } from "react-router-dom";
+import { capitalizeFirstLetter } from "../utils/formatter";
 
 const CreateCollege = () => {
 
+    const { id } = useParams();
     const [name, setName] = useState("")
     const [location, setLocation] = useState("")
     const [university, setUniversity] = useState("")
     const [website, setWebsite] = useState("")
     const [fee, setFee] = useState("")
+    const [courses, setCourses]= useState("")
     const [course, setCourse] = useState([])
-    const [subject, setSubject] = useState([])
+    const [subjects, setSubjects] = useState([])
     const [description, setDescription] = useState("")
+    const [availableSubjects, setAvailableSubjects] = useState([])
+    const [availableCourses, setAvailableCourses] = useState([])
+    const [error, setError] = useState([])
+
+    const handleCheckboxSubject = (event) => {
+        const value = event.target.value;
+        const index = subjects.indexOf(value);
+    
+        if (event.target.checked) {
+          if (index === -1) {
+            setSubjects([...subjects, value]);
+          }
+        } else {
+          if (index !== -1) {
+            const newCheckedBoxes = [...subjects];
+            newCheckedBoxes.splice(index, 1);
+            setSubjects(newCheckedBoxes);
+          }
+        }
+    }
+
+    const handleCheckboxCourse = (event) => {
+        const value = event.target.value;
+        const index = courses.indexOf(value);
+    
+        if (event.target.checked) {
+          if (index === -1) {
+            setCourses([...courses, value]);
+          }
+        } else {
+          if (index !== -1) {
+            const newCheckedBoxes = [...courses];
+            newCheckedBoxes.splice(index, 1);
+            setCourses(newCheckedBoxes);
+          }
+        }
+    }
+
+    const getSubjects = async () => {
+        const response = await fetch("http://localhost:1447/api/getsubjectinfo", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        const answer = await response.json();
+        setAvailableSubjects(answer.data)
+    }
+
+    const getCourses = async () => {
+        const response = await fetch("http://localhost:1447/api/getcourseinfo", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        const answer = await response.json();
+        setAvailableCourses(answer.data)
+    }
+
+    useEffect(() => {
+        getSubjects()
+        getCourses()
+    }, [])
 
     return (
         <>
@@ -35,24 +105,33 @@ const CreateCollege = () => {
                     <input value={university} OnChange={(e) => setUniversity(e)}  className="border border-black col-span-4 h-8 text-sm px-2"/>
                 </div>
 
-                <div className="grid grid-cols-12 items-center">
-                    <div className="col-span-2">Website</div>
-                    <input value={website} OnChange={(e) => setWebsite(e)}  className="border border-black col-span-4 h-8 text-sm px-2 py-4"/>
+                <div className="grid grid-cols-12 items-center w-2/3 gap-y-4">
+                        <div className="col-span-12">Courses</div>
+                        {availableCourses.map((v, i) => {
+                            return (
+                                <div key={v.name+i} className='flex items-center gap-x-3 col-span-6'>
+                                    <input id={v.name + i} type="checkbox" value={v.name} checked={courses.indexOf(v.name) !== -1} onChange={handleCheckboxCourse} />
+                                    <label htmlFor={v.name + i} className='text-base'>{capitalizeFirstLetter(v.name)}</label>
+                                </div>
+                            )
+                        })}
+                </div>
+
+                <div className="grid grid-cols-12 items-center w-2/3 gap-y-4">
+                    <div className="col-span-12">Subjects</div>
+                    {availableSubjects.map((v, i) => {
+                        return (
+                            <div key={v.name + i} className='flex items-center gap-x-3 col-span-4'>
+                                <input id={v.name + i} type="checkbox" value={v.name} checked={subjects.indexOf(v.name) !== -1} onChange={handleCheckboxSubject} />
+                                <label htmlFor={v.name + i} className='text-base'>{capitalizeFirstLetter(v.name)}</label>
+                            </div>
+                        )
+                    })}
                 </div>
 
                 <div className="grid grid-cols-12 items-center">
                     <div className="col-span-2">Approximate Fee</div>
                     <input value={fee} OnChange={(e) => setFee(e)}  className="border border-black col-span-4 h-8 text-sm px-2"/>
-                </div>
-
-                <div className="grid grid-cols-12 items-center">
-                    <div className="col-span-2">Courses</div>
-                    <input className="border border-black col-span-4 h-8 text-sm px-2"/>
-                </div>
-
-                <div className="grid grid-cols-12 items-center">
-                    <div className="col-span-2">Subjects</div>
-                    <input className="border border-black col-span-4 h-8 text-sm px-2"/>
                 </div>
 
                 <div className="grid grid-cols-12 items-center gap-y-4">

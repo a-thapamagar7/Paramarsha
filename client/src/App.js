@@ -12,9 +12,11 @@ import Mocktest from "./Components/Mocktest";
 import InformationShowcase from "./Components/InformationShowcase";
 import UniversityPage from "./Components/UniversityPage";
 import CreateCollege from "./Components/CreateCollege";
-import CreateSubject from "./Components/CreateSubject";
 import UserList from "./Components/UserList";
 import AdminSubjects from "./Components/AdminSubjects";
+import CreateCourse from "./Components/CreateCourse";
+import AdminCourses from "./Components/AdminCourses";
+import CreateUniversity from "./Components/CreateUniversity";
 
 const App = () => {
   return (
@@ -26,12 +28,15 @@ const App = () => {
         <Route path="/" element={<Homepage />} />
         <Route path="/hi" element={<InformationShowcase />} />
         <Route path="/createcollege" element={<CreateCollege />} />
-        <Route path="/createsubject" element={<CreateSubject />} />
+        <Route path="/admin/courses/add" element={<CreateCourse />} />
+        <Route path="/admin/courses/update/:id" element={<CreateCourse />} />
+        <Route path="/admin/university/create" element={<CreateUniversity />} />
         <Route path="/bi" element={<UniversityPage />} />
         <Route path="/user" element={<UserList />} />
         <Route path="/mocktest" element={<CreateMockTest />} />
         <Route path="/test" element={<Mocktest />} />
         <Route path="/admin/subjects" element={<AdminSubjects />} />
+        <Route path="/admin/courses" element={<AdminCourses />} />
       </Routes>
     </div>
   );
