@@ -9,8 +9,8 @@ const ComboBox = ({ options, selectedValue, onValueChange }) => {
     <div>
       <select className="border border-black py-2 px-3 w-80" id="combo-box" value={selectedValue} onChange={handleChange}>
         <option value="">Please choose an option</option>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
+        {options.map((option, index) => (
+          <option key={option.value + index} value={option.value}>
             {option.label}
           </option>
         ))}

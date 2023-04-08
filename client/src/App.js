@@ -17,6 +17,10 @@ import AdminSubjects from "./Components/AdminSubjects";
 import CreateCourse from "./Components/CreateCourse";
 import AdminCourses from "./Components/AdminCourses";
 import CreateUniversity from "./Components/CreateUniversity";
+import AdminUniversties from "./Components/AdminUniversities";
+import AdminColleges from "./Components/AdminColleges";
+import CollegePage from "./Components/CollegePage";
+import ContentDetails from "./Components/ContentDetails";
 
 const App = () => {
   return (
@@ -25,18 +29,25 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/coll" element={<CollegePage />} />
         <Route path="/" element={<Homepage />} />
+        <Route path="/ser" element={<ContentDetails />} />
         <Route path="/hi" element={<InformationShowcase />} />
-        <Route path="/createcollege" element={<CreateCollege />} />
+        <Route path="/content/:topic" element={<InformationShowcase />} />
         <Route path="/admin/courses/add" element={<CreateCourse />} />
+        <Route path="/admin/colleges/add" element={<CreateCollege />} />
+        <Route path="/admin/colleges/add/:id" element={<CreateCollege />} />
         <Route path="/admin/courses/update/:id" element={<CreateCourse />} />
-        <Route path="/admin/university/create" element={<CreateUniversity />} />
+        <Route path="/admin/universities/add" element={<CreateUniversity />} />
+        <Route path="/admin/universities/add/:id" element={<CreateUniversity />} />
         <Route path="/bi" element={<UniversityPage />} />
         <Route path="/user" element={<UserList />} />
         <Route path="/mocktest" element={<CreateMockTest />} />
         <Route path="/test" element={<Mocktest />} />
         <Route path="/admin/subjects" element={<AdminSubjects />} />
         <Route path="/admin/courses" element={<AdminCourses />} />
+        <Route path="/admin/universities" element={<AdminUniversties />} />
+        <Route path="/admin/colleges" element={<AdminColleges />} />
       </Routes>
     </div>
   );

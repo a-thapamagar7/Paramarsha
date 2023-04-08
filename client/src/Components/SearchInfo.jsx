@@ -4,8 +4,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import { useParams } from 'react-router-dom';
 
-
-const InformationShowcase = () => {
+const SearchInfo = () => {
 
   const {topic} = useParams()
   const [content, setContent] = useState([])
@@ -16,7 +15,7 @@ const InformationShowcase = () => {
 
   useEffect(()=>{
     getContentInfo()
-  },)
+  },[])
 
   const getDataInfo = async(setData, url) => {
     const response = await fetch(url, 
@@ -31,32 +30,10 @@ const InformationShowcase = () => {
   }
 
   const getContentInfo = async() => {
-    if(topic === "colleges")
-    {
-      getDataInfo(setContent, "http://localhost:1447/api/getcollegeinfo")
-    }
-    else if(topic === "universities")
-    {
-      getDataInfo(setContent, "http://localhost:1447/api/getuniversityinfo")
-    }
-    else if(topic === "subjects")
-    {
-      getDataInfo(setContent, "http://localhost:1447/api/getsubjectinfo")
-    }
-    else if(topic === "course")
-    {
-      getDataInfo(setContent, "http://localhost:1447/api/getcourseinfo")
-    }
-    else if(topic === "all")
-    {
-      getDataInfo(setUniversity, "http://localhost:1447/api/getuniversityinfo")
-      getDataInfo(setCollege, "http://localhost:1447/api/getcollegeinfo")
-      getDataInfo(setSubject, "http://localhost:1447/api/getsubjectinfo")
-      getDataInfo(setCourse, "http://localhost:1447/api/getcourseinfo")
-    }
-    else{
-      
-    }
+    getDataInfo(setUniversity, "http://localhost:1447/api/getuniversityinfo")
+    getDataInfo(setCollege, "http://localhost:1447/api/getcollegeinfo")
+    getDataInfo(setSubject, "http://localhost:1447/api/getsubjectinfo")
+    getDataInfo(setCourse, "http://localhost:1447/api/getcourseinfo")
   }
 
   return (
@@ -108,4 +85,4 @@ const InformationShowcase = () => {
   );
 }
 
-export default InformationShowcase;
+export default SearchInfo;

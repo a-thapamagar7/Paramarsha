@@ -14,7 +14,6 @@ import quiz from "../Images/quiz.png"
 import review from "../Images/review.png"
 import call from "../Images/video-call.png";
 import college from "../Images/college.png";
-import book from "../Images/book.png";
 import Collegesection from "./Collegesection";
 import Universitysection from "./Universitysection";
 import Footer from "./Footer";

@@ -13,8 +13,8 @@ const VerticalNavbar = () => {
             <div className="flex items-center justify-between mb-10">
                 <div className="text-2xl font-bold tracking-wide spacegrotesk">Logo</div>
                 <button className="text-gray-500 hover:text-white focus:outline-none focus:text-white" onClick={() => setIsOpen(!isOpen)}>
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
                 </button>
             </div>
@@ -39,16 +39,16 @@ const VerticalNavbar = () => {
                             <div onClick={()=>{navigate("/admin/courses")}}  className="block px-4 py-2 hover:bg-gray-700  cursor-pointer">
                                 Courses
                             </div >
-                            <div  className="block px-4 py-2 hover:bg-gray-700  cursor-pointer">
-                                Colleges
-                            </div>
-                            <div  className="block px-4 py-2 hover:bg-gray-700  cursor-pointer">
+                            <div onClick={()=>{navigate("/admin/universities")}}  className="block px-4 py-2 hover:bg-gray-700  cursor-pointer">
                                 Universities
+                            </div>
+                            <div onClick={()=>{navigate("/admin/colleges")}}   className="block px-4 py-2 hover:bg-gray-700  cursor-pointer">
+                                Colleges
                             </div>
                         </div>
                     )}
                 </div>
-                <div className="block py-2.5 px-4 rounded hover:bg-gray-800  cursor-pointer" >
+                <div  onClick={()=>{navigate("/")}}  className="block py-2.5 px-4 rounded hover:bg-gray-800  cursor-pointer" >
                     Home
                 </div>
             </div>

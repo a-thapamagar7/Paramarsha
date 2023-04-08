@@ -60,7 +60,6 @@ const UniversityPage = () => {
 
   return (
     <div className="flex flex-row">
-      <VerticalNavbar/>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <UniversityHeader university={headerData} image={ace} />
         <div className="py-12">

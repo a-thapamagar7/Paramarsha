@@ -121,6 +121,14 @@
     transform: scale(1.17); 
 }
 
+.infoCard:hover { 
+    transform: scale(1.06); 
+}
+
+.infoCard { 
+    transition: all .14s ease-in-out; 
+}
+
 .question::placeholder {
     font-size: 30px;
     justify-content: center;

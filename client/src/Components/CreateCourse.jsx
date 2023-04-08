@@ -83,9 +83,13 @@ const CreateCourse = () => {
         });
 
         const answer = await response.json();
-        setName(answer.data.name)
-        setDescription(answer.data.description)
-        setSubjects(answer.data.subjects)
+        if(answer.data)
+        {
+            setName(answer.data.name)
+            setDescription(answer.data.description)
+            setSubjects(answer.data.subjects)
+        }
+       
     }
 
     const createCourses = async () => {

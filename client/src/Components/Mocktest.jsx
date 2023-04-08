@@ -25,6 +25,18 @@ const Mocktest = () => {
         getSubjects()
     }, [])
 
+    //for random shuffle of elements in options
+    const shuffleArray = array => {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          const temp = array[i];
+          array[i] = array[j];
+          array[j] = temp;
+        }
+        return array
+      }
+
+    //to get the subjects which are available and capitalizing the first letter of the subject
     const getSubjects = async () => {
         const response = await fetch("http://localhost:1447/api/getquestions", {
             method: "GET",
@@ -66,7 +78,11 @@ const Mocktest = () => {
         }
         else {
             const newQuestions = answer.data
-            console.log(newQuestions)
+            for(let i = 0; i < newQuestions.length; i++)
+            {
+                const newOptions = shuffleArray(newQuestions[i].options)
+                newQuestions[i].options = newOptions
+            }
             setQuestions(newQuestions)
             setStart(true)
         }
@@ -105,7 +121,6 @@ const Mocktest = () => {
             setWrongAnswers(newWrongAnswers)
             if (newSelectedAnswers[questionID]) {
                 delete newSelectedAnswers[questionID]
-                console.log(newSelectedAnswers)
                 setSelectedAnswers(newSelectedAnswers)
             }
         }
@@ -226,7 +241,7 @@ const Mocktest = () => {
                             <form onSubmit={OnStartSubmit} className="flex flex-col gap-x-4 gap-y-9 text-lg">
                                 <div className="flex justify-between">
                                     <label className="">Subject: </label>
-                                    <ComboBox options={options} selectedSubject={selectedSubject} onValueChange={handleValueChange} />
+                                    <ComboBox options={options} selectedValue={selectedSubject} onValueChange={handleValueChange} />
                                 </div>
                                 <div className="flex justify-between gap-x-5">
                                     <label className="" >No of questions: </label>
