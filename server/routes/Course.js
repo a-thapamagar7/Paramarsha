@@ -29,7 +29,6 @@ router.get("/getcourses", async (req, res) => {
 
 router.get("/getrequiredcourse/:id", async (req, res) => {
     const id = req.params.id;
-    console.log(id)
     try {
         const course = await Course.findById(id)
         return res.json({ status: "success", message: "data_found", data: course })

@@ -8,6 +8,9 @@ const createQuestion = require("./routes/Mocktest")
 const subject = require("./routes/Subject")
 const course = require("./routes/Course")
 const university = require("./routes/University")
+const college = require("./routes/College")
+const review = require("./routes/Review")
+const others = require("./routes/Others")
 
 //allows communication between ports
 app.use(cors())
@@ -32,6 +35,15 @@ app.use("/api", course)
 
 // for the university
 app.use("/api", university)
+
+// for the college
+app.use("/api", college)
+
+// for others
+app.use("/api", others)
+
+// for review
+app.use("/api", review)
 
 
 app.listen(1447, () => {

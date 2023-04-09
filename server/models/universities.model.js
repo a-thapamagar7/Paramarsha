@@ -8,6 +8,8 @@ const Universities = new mongoose.Schema({
     colleges: { type: [String] },
     courses: { type: [String], required: true },
     subjects: { type: [String], required: true },
+    logoURL: {type: String},
+    imgURL: {type: String}
 }, {collection: "university-data"})
 
 const universityModel = mongoose.model("UniversityData", Universities)
