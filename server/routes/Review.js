@@ -54,4 +54,6 @@ router.get("/getcolleges/:collegeID", async (req, res) => {
     });
 })
 
+
+
 module.exports = router

@@ -11,6 +11,7 @@ const university = require("./routes/University")
 const college = require("./routes/College")
 const review = require("./routes/Review")
 const others = require("./routes/Others")
+const payment = require("./routes/Payment")
 
 //allows communication between ports
 app.use(cors())
@@ -44,6 +45,9 @@ app.use("/api", others)
 
 // for review
 app.use("/api", review)
+
+// for review
+app.use("/api", payment)
 
 
 app.listen(1447, () => {
