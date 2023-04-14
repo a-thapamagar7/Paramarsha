@@ -1,6 +1,4 @@
 const Question = ({ questionNo, question, nameGroup, handleOption }) => {
-    
-
 
     return (
         <div className="w-max">

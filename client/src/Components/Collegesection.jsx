@@ -1,11 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import islington from "../Images/islington.jpg"
 import ace from "../Images/ace.jpg"
 import herald from "../Images/herald.jpg"
 import ncm from "../Images/ncm.jpg"
 import Contentcards from "./Contentcards";
+import { useNavigate } from "react-router-dom";
 
 const Collegesection = () => {
+
+    const navigate = useNavigate()
+    const [content, setContent] = useState([])
+
+    useEffect(()=>{
+        getDataInfo(setContent, "http://localhost:1447/api/gethighestcollege")
+    },[])
+
+    const getDataInfo = async(setData, url) => {
+        const response = await fetch(url, 
+          {
+            method: "GET",
+            headers: {
+            "Content-Type": "application/json"
+          }
+          });
+          
+          const answer = await response.json();
+          setData(answer.data)
+    }
+
     return (
         <div className="w-full flex flex-col mt-32 gap-y-7">
             <div className="mb-10 flex flex-row items-end" style={{justifyContent: "space-between"}}>
@@ -18,14 +40,17 @@ const Collegesection = () => {
                         Explore some of the best colleges from around the country with our curated list
                     </div>
                 </div>
-                <div className="text-gray-500 text-lg">
+                <div onClick={() => {navigate("/content/colleges"); window.scrollTo(0, 0)}} className="text-gray-500 text-lg cursor-pointer">
                     View All
                 </div>
             </div>
             <div className="w-full h-96 flex flex-row" style={{ justifyContent: "space-between", height: "350px"}}>
-                <Contentcards image={islington} name="Islington College" rating="4" address="Kamalpokhari, Kathmandu" items={["IT", "Business"]}/>
-                <Contentcards image={ace} name="Ace Institute of Management" rating="3" address="New Baneshwor, Kathmandu" items={["Business"]}/>
-                <Contentcards image={herald} name="Herald College"  rating="4" address="Naxal, Kathmandu" items={["Business", "Business","Business", "Business", "Business", "IT"]}/>
+                {content.map((value, index)=>{
+                    return(
+                        <Contentcards image={value.imgURL} name={value.name} rating="4" address={value.location} items={value.subjects}/>
+                    )
+                })}
+               
             </div>
             
         </div>

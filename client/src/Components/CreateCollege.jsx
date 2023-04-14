@@ -151,7 +151,7 @@ const CreateCollege = () => {
             })
         })
         const data = await response.json()
-        if (data.message == "data_added") {
+        if (data.message === "data_added") {
             const newError = { ...error }
             newError.message = "Added"
             newError.style = "text-red-700 text-lg"
@@ -185,7 +185,7 @@ const CreateCollege = () => {
             })
         })
         const answer = await response.json();
-        if (answer.message == "data_updated") {
+        if (answer.message === "data_updated") {
             navigate("/admin/colleges")
         }
         else {
@@ -275,9 +275,12 @@ const CreateCollege = () => {
                         })}
                 </div>
 
-                <div className="grid grid-cols-12 items-center w-2/3 gap-y-4">
+                <div className="grid grid-cols-12 items-center w-full gap-y-4">
                         <div className="col-span-12">Courses</div>
-                        <ComboBox options={availableUniversities} selectedValue={university} onValueChange={handleValueChange} />
+                        <div className="w-80">
+                            <ComboBox options={availableUniversities} selectedValue={university} onValueChange={handleValueChange} />
+                        </div>
+                        
                 </div>
                 
 

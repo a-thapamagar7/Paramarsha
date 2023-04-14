@@ -7,8 +7,9 @@ const ComboBox = ({ options, selectedValue, onValueChange }) => {
 
   return (
     <div>
-      <select className="border border-black py-2 px-3 w-80" id="combo-box" value={selectedValue} onChange={handleChange}>
-        <option value="">Please choose an option</option>
+      <select className="border
+       border-black py-2 px-3 w-full" id="combo-box" value={selectedValue} onChange={handleChange}>
+        <option value="">Choose an option</option>
         {options.map((option, index) => (
           <option key={option.value + index} value={option.value}>
             {option.label}

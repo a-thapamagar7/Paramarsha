@@ -17,7 +17,6 @@ const Mocktest = () => {
     const [options, setOptions] = useState([])
     const [selectedAnswers, setSelectedAnswers] = useState({});
     const [wrongAnswers, setWrongAnswers] = useState([]);
-    const [submitted, setSubmitted] = useState(false);
     const [error, setError] = useState({});
     const [questions, setQuestions] = useState([]);
 
@@ -98,15 +97,15 @@ const Mocktest = () => {
         newSelectedAnswers[questionID] = answer
         setSelectedAnswers(newSelectedAnswers)
 
-        const question = questions.find((q) => q._id == questionID)
+        const question = questions.find((q) => q._id === questionID)
         const newWrongAnswers = [...wrongAnswers]
 
 
         //checks and stores the wrong answer in array
         if (question.answer !== answer) {
             //checks to see if the user has already gave a wrong answer and to replace it with the recent one
-            if (newWrongAnswers.find((q) => q.q_ID == questionID)) {
-                const index = newWrongAnswers.indexOf(newWrongAnswers.find((q) => q.q_ID == questionID))
+            if (newWrongAnswers.find((q) => q.q_ID === questionID)) {
+                const index = newWrongAnswers.indexOf(newWrongAnswers.find((q) => q.q_ID === questionID))
                 newWrongAnswers[index].selectedAnswer = answer
             }
             else {
@@ -125,8 +124,8 @@ const Mocktest = () => {
             }
         }
         // to remove the wrong response if the user has corrected it
-        else if (newWrongAnswers.find((q) => q.q_ID == questionID)) {
-            const i = newWrongAnswers.indexOf(newWrongAnswers.find((q) => q.q_ID == questionID))
+        else if (newWrongAnswers.find((q) => q.q_ID === questionID)) {
+            const i = newWrongAnswers.indexOf(newWrongAnswers.find((q) => q.q_ID === questionID))
             newWrongAnswers.splice(i, 1)
             setWrongAnswers(newWrongAnswers)
         }
@@ -137,7 +136,7 @@ const Mocktest = () => {
         let newscore = 0
         for (let i = 0; i < Object.keys(selectedAnswers).length; i++) {
             const selectedAnswer = Object.values(selectedAnswers)[i]
-            const question = questions.find((q) => q._id == Object.keys(selectedAnswers)[i])
+            const question = questions.find((q) => q._id === Object.keys(selectedAnswers)[i])
             if (selectedAnswer === question.answer) {
                 newscore++
             }
@@ -147,7 +146,7 @@ const Mocktest = () => {
 
     const onFinished = async (event) => {
         event.preventDefault()
-        if ((Object.keys(selectedAnswers).length + wrongAnswers.length) != questions.length) {
+        if ((Object.keys(selectedAnswers).length + wrongAnswers.length) !== questions.length) {
             const newError = { ...error }
             newError.message = "Please attempt all the questions"
             newError.style = wrongError
@@ -156,12 +155,13 @@ const Mocktest = () => {
         else {
             checkAnswers()
             setFinished(true)
+            window.scrollTo(0, 0)
         }
     }
 
     const OnStartSubmit = async (event) => {
         event.preventDefault()
-        if (selectedSubject == "" || questionNos == "") {
+        if (selectedSubject === "" || questionNos === "") {
             const newError = { ...error }
             newError.message = "Please input all the required fields"
             newError.style = wrongError
@@ -202,13 +202,13 @@ const Mocktest = () => {
                                                     </div>
                                                     <div className="flex flex-col mt-3 gap-y-2">
                                                         <div className="flex flex-row lato text-lg items-center gap-x-5">
-                                                            <img src={wrong} className="w-5 h-5" />
+                                                            <img alt="wrong" src={wrong} className="w-5 h-5" />
                                                             <div className="underline decoration-double underline-offset-4 decoration-red-600">
                                                                 {result.selectedAnswer}
                                                             </div>
                                                         </div>
                                                         <div className="flex flex-row lato text-lg items-center gap-x-5">
-                                                            <img src={right} className="w-5 h-5" />
+                                                            <img alt="right" src={right} className="w-5 h-5" />
                                                             <div>
                                                                 {result.answer}
                                                             </div>
@@ -241,7 +241,10 @@ const Mocktest = () => {
                             <form onSubmit={OnStartSubmit} className="flex flex-col gap-x-4 gap-y-9 text-lg">
                                 <div className="flex justify-between">
                                     <label className="">Subject: </label>
-                                    <ComboBox options={options} selectedValue={selectedSubject} onValueChange={handleValueChange} />
+                                    <div className="w-80">
+                                        <ComboBox options={options} selectedValue={selectedSubject} onValueChange={handleValueChange} />
+                                    </div>
+                                    
                                 </div>
                                 <div className="flex justify-between gap-x-5">
                                     <label className="" >No of questions: </label>

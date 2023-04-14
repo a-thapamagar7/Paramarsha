@@ -24,7 +24,6 @@ const Login = () => {
         })
         const data = await response.json();
 
-        console.log(data)
         if (data.user) {
             localStorage.setItem("token", data.user)
             alert("Login sucessful")
@@ -42,7 +41,7 @@ const Login = () => {
                     <div className="w-64">
                         <span className="font-extrabold manrope" style={{ fontSize: "22px" }}>Welcome back, User </span>
                         <div className="spacegrotesk text-xs mb-5">Welcome back! Please enter your details.</div>
-                            <form className="flex flex-col" onSubmit={loginUser}>
+                            <form className="flex flex-col text-sm" onSubmit={loginUser}>
                                 <input className="inputBorder mb-1 w-full register-login-font spacegrotesk" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" /><br />
                                 <input className="inputBorder mb-1 w-full register-login-font spacegrotesk" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" /><br />
                                 <div className="w-28 spacegrotesk mb-5 underline cursor-pointer" style={{ fontSize: "11px" }}>Forgot Password</div>

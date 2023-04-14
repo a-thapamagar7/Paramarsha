@@ -18,7 +18,6 @@ import Collegesection from "./Collegesection";
 import Universitysection from "./Universitysection";
 import Footer from "./Footer";
 import Features from "./Features";
-import Contentcards from "./Contentcards";
 import Subjectcard from "./Subjectcard";
 
 const Homepage = () => {
@@ -27,6 +26,7 @@ const Homepage = () => {
     const [imageUrls] = useState([mainImage, mainImage1, mainImage2, mainImage3, mainImage4]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [subject, setSubject] = useState([])
+    const [searchValue, setSearchValue] = useState([])
 
 
     function updateIndex() {
@@ -53,11 +53,6 @@ const Homepage = () => {
         setSubject(answer.data)
     }
 
-
-
-
-
-
     return (
         <>
             <div className="px-20">
@@ -75,10 +70,10 @@ const Homepage = () => {
                             With our professional advice and extensive tools, find the ideal bachelor program, college, and university in Nepal. Make a well-informed choice to ensure your future academic and professional success. Welcome to our website "Paramarsha".
                         </div>
                         <div className="w-full flex flex-row mt-10">
-                            <div className="flex bg-white px-1 items-center justify-center w-2/12 searchBorder">
+                            <div onClick={()=>{navigate(`/content/${searchValue}`)}} className="flex bg-white px-1 items-center justify-center w-2/12 searchBorder">
                                 <img className="w-4/12" src={searchIcon} />
                             </div>
-                            <input className="w-11/12 py-1 searchBorder2 inter pr-2" style={{ fontSize: "23px" }} placeholder="Search" type="search" />
+                            <input value={searchValue} onChange={(e)=>{setSearchValue(e.target.value)}}  className="w-11/12 py-1 searchBorder2 inter pr-2" style={{ fontSize: "23px" }} placeholder="Search" type="search" />
                         </div>
                     </div>
                     <div className="w-5/12 h-full">
@@ -91,12 +86,12 @@ const Homepage = () => {
                         <span className="">What We </span>
                         <span className="text-blue-700">Offer</span>
                     </div>
-                    <div className="w-full grid grid-cols-12">
-                        <Features link="/test" name="Mock Tests" details="User will be able to take mock test or exams for preparation of certain courses which require entrance examination." premium="For premium users only, Join Us" image={test} />
-                        <Features name="Meeting with Counselors" details="User will be able to take advice from professional counselors to help them gain proper guidance and support." premium="For premium users only, Join Us" image={call} />
+                    <div className="w-full grid grid-cols-12 gap-y-10 pt-10">
+                        <Features link="/test" name="Mock Tests" details="User will be able to take mock test or exams for preparation of certain courses which require entrance examination." premium="For premium users only, Join Us" image={test}/>
+                        <Features name="Meeting with Counselors" details="User will be able to take advice from professional counselors to help them gain proper guidance and support." premium="For premium users only, Join Us" image={call}/>
                         <Features name="Quiz" details="User will be able to take a quiz which will be able to recommend students a course which may be suitable for them according to our system." image={quiz} />
-                        <Features name="Review System" details="User will be able rate the rate the colleges on the basis of different factors which will be later rounded to give an overall rating." image={review} />
-                        <Features name="Colleges and Courses" details="User will be able to access information about the vast number of colleges, courses and univesities of Nepal." image={college} />
+                        <Features link="/content/colleges" name="Review System" details="User will be able rate the rate the colleges on the basis of different factors which will be later rounded to give an overall rating." image={review} />
+                        <Features link="/content/all" name="Colleges and Courses" details="User will be able to access information about the vast number of colleges, courses and univesities of Nepal." image={college} />
                     </div>
                 </div>
 

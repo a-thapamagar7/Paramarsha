@@ -1,9 +1,13 @@
 import star from "../Images/star.png"
 import missIMG from "../Images/imaga.png"
+import { useNavigate } from "react-router-dom"
 
 const InfoCard = ({ imgURL, name, description, location, rating, subjects }) => {
+    
+    const navigate = useNavigate();
+
     return (
-        <div className="bg-white rounded-lg shadow-lg p-6 border infoCard cursor-pointer">
+        <div onClick={()=>{navigate("/info/" + name); window.scrollTo(0, 0)}} className="bg-white rounded-lg shadow-lg p-6 border infoCard cursor-pointer">
             <div className="flex flex-col md:flex-row">
                 <div className="md:w-3/12">
                     <img src={(imgURL)?(imgURL):(missIMG)} alt={name} className="rounded-lg h-48 w-full object-cover" />
@@ -20,9 +24,9 @@ const InfoCard = ({ imgURL, name, description, location, rating, subjects }) => 
 
                         {(subjects) ?
                             (<>
-                                {subjects.map((value) => {
+                                {subjects.map((value, i) => {
                                     return(
-                                        <span className="inline-block bg-blue-700 rounded-full px-3 py-1 text-xs font-semibold text-white mr-2 mb-2">{value}</span>
+                                        <span key={value + i} className="inline-block bg-blue-700 rounded-full px-3 py-1 text-xs font-semibold text-white mr-2 mb-2">{value}</span>
                                     )
                                     
                                 })}
