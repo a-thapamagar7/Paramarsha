@@ -1,4 +1,5 @@
 const express = require("express")
+const College = require("../models/colleges.model")
 const University = require("../models/universities.model")
 const router = express.Router()
 
@@ -48,6 +49,32 @@ router.get("/getrequireduniversity/:id", async (req, res) => {
 
 })
 
+router.get("/gethighestuniversity", async (req, res) => {
+    // const collegeNames = await College.aggregate([
+    //     {
+    //       $lookup: {
+    //         from: 'review-data',
+    //         localField: '_id',
+    //         foreignField: 'college',
+    //         as: 'reviewsData'
+    //       }
+    //     },
+    //     {
+    //       $addFields: {
+    //         overallRating: { $avg: '$reviewsData.overallRating' } 
+    //       }
+    //     },
+    //     {
+    //       $sort: { overallRating: -1 }
+    //     },
+    //     {
+    //       $limit: 3
+    //     }
+    //   ]);
+    // const universities = await University.find({ colleges: { $in: collegeNames } })
+    // return res.json({ status: 'success', message: 'data_added', data: universities });
+})
+
 router.get("/getuniversityinfo", async (req, res) => {
     try {
         const university = await University.find({})
@@ -75,6 +102,16 @@ router.patch("/university/update/:id", async (req, res) => {
         return res.json({ status: "success", message: "data_updated" })
     } catch (err) {
         return res.json({ status: "error", message: "There is an error" })
+    }
+})
+
+router.get("/getuniversityinfo", async (req, res) => {
+    try {
+        const university = await University.find({})
+        return res.json({ status: "success", message: "data_added", data: university })
+    } catch (err) {
+        return res.json({ status: "error", message: "There is an error" })
+
     }
 })
 

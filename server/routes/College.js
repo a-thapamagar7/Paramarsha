@@ -60,6 +60,42 @@ router.get("/getcollegeinfo", async (req, res) => {
     }
 })
 
+router.get("/gethighestcollege", async (req, res) => {
+    const colleges = await College.aggregate([
+        // Stage 1: Match colleges (if needed)
+        // { $match: { ... } },
+      
+        // Stage 2: Lookup reviews data
+        {
+          $lookup: {
+            from: 'review-data', // Collection name of the 'Reviews' model
+            localField: '_id', // Field in the 'College' model to match with '_id' field in 'Reviews' model
+            foreignField: 'college', // Field in the 'Reviews' model that contains the college references
+            as: 'reviewsData' // Name of the field to store the retrieved reviews data
+          }
+        },
+      
+        // Stage 3: Calculate overall rating for each college
+        {
+          $addFields: {
+            overallRating: { $avg: '$reviewsData.overallRating' } // Assuming 'reviewsData.rating' contains the rating field in the 'Reviews' model
+          }
+        },
+      
+        // Stage 4: Sort colleges by overall rating in descending order
+        {
+          $sort: { overallRating: -1 }
+        },
+      
+        // Stage 5: Limit the retrieved documents to 3
+        {
+          $limit: 3
+        }
+      ]);
+      return res.json({ status: 'success', message: 'data_added', data: colleges });
+      
+})
+
 router.delete("/college/delete/:id", async (req, res) => {
     const id = req.params.id;
     try {
