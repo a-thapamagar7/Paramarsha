@@ -114,7 +114,7 @@ const AdminSubjects = () => {
         const answer = await response.json()
         if (answer.data) {
             const newError = { ...error }
-            newError.message = "The questions have been sucessfully added"
+            newError.message = "The subject have been sucessfully added"
             newError.style = rightError
             setError(newError)
             setSubject(answer.data)
@@ -139,8 +139,8 @@ const AdminSubjects = () => {
                     <thead>
                         <tr className="grid border-y grid-cols-12 place-items-center h-11 bg-gray-100">
                             <th className="col-span-1">S.N.</th>
-                            <th className="col-span-3">NAME</th>
-                            <th className="col-span-6">DESCRIPTION</th>
+                            <th className="col-span-3">Name</th>
+                            <th className="col-span-6">Description</th>
                             <th className="col-span-2"></th>
                         </tr>
                     </thead>

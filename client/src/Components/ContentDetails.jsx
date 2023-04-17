@@ -61,18 +61,40 @@ const ContentDetails = () => {
         const data = await response.json()
         if (data.message == "data_added") {
             const newError = { ...error }
+            const newReviews = [...reviews]
+            newReviews.unshift(
+                {
+                    facilities: facilities, 
+                    education: education, 
+                    overallRating: overallRating,
+                    comment: comment,
+                    user:{
+                        college: college, 
+                        firstName: data.firstName,
+                        lastName: data.lastName
+                    }
+                    
+                }
+            )
+            setReviews(newReviews)
             newError.message = "Added"
-            newError.style = "text-green-700 text-lg"
+            newError.style = "text-green-700 text-sm"
             setError(newError)
             
         } else if(data.message == "not_user" || data.message == "empty_token") {
             localStorage.removeItem("token")
             navigate("/login")
         }
+        else if(data.error == "input_exists") {
+            const newError = { ...error }
+            newError.message = "You have already reviewed this college"
+            newError.style = "text-red-700 text-sm"
+            setError(newError)
+        }
         else{
             const newError = { ...error }
             newError.message = "Error verifying"
-            newError.style = "text-red-700 text-lg"
+            newError.style = "text-red-700 text-sm"
             setError(newError)
         }
     }
@@ -115,7 +137,10 @@ const ContentDetails = () => {
 
     const onReviewSubmit = (event) => {
         event.preventDefault()
-        createReview();
+        createReview()
+        setFacilties("")
+        setEducation("")
+        setComment("")
     }
 
     return (
@@ -263,7 +288,7 @@ const ContentDetails = () => {
                                                     <>
                                                         <div className="flex items-center">Overall Rating:</div>
                                                         
-                                                        <div className="ml-4">
+                                                        <div className="ml-9 text-sm">
                                                             {Math.trunc(( parseInt(facilities)+ parseInt(education))/2)}
                                                         </div>
                                                         <img className="h-3 ml-1" src={star}/>
@@ -277,6 +302,7 @@ const ContentDetails = () => {
                                             </div>
                                             <textarea value={comment} onChange={(e)=>setComment(e.target.value)} className="border-2 border-gray-400 col-span-12 h-32 px-2 py-3 text-sm mt-2"/>
                                             <button type="submit" className="col-span-2 bg-blue-700 text-white h-8">Post</button>
+                                            <div className={error.style + " col-span-12"}>{error.message}</div>
                                         </div>
                                     </form>
                                     {reviews.map((value, index)=>{

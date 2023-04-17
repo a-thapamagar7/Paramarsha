@@ -25,8 +25,6 @@
 //             .then((currentStream) => {
 //                 setStream(currentStream)
 
-//                 //sets the video for the user
-//                 myVideo.current.srcObject = currentStream
 //             })
 
 //         socket.on("me", (id) => setMe(id))
@@ -36,23 +34,31 @@
 //         })
 //     }, [])
 
+//     useEffect(() => {
+//         if (myVideo.current) {
+//           myVideo.current.srcObject = stream;
+//         }
+//       }, [myVideo, stream]);
+
 //     const answerCall = () => {
-//         setCallAccepted(true)
+//         setCallAccepted(true);
 
-//         const peer = new Peer({ initator: false, trickle: false, stream });
+//     const peer = new Peer({ initiator: false, trickle: false, stream });
 
-//         peer.on("signal", (data) => {
-//             socket.emit("answercall", { signal: data, to: call.from })
-//         })
+//     // Attach the signal event listener
+//     peer.on("signal", (data) => {
+//         socket.emit("answercall", { signal: data, to: call.from });
+//     });
 
-//         //sets the video for the caller
-//         peer.on("stream", (currentStream) => {
-//             userVideo.current.srcObject = currentStream
-//         })
+//     // sets the video for the caller
+//     peer.on("stream", (currentStream) => {
+//         userVideo.current.srcObject = currentStream;
+//     });
 
-//         peer.signal(call.signal);
+//     // Call peer.signal() after attaching the signal event listener
+//     peer.signal(call.signal);
 
-//         connectionRef.current = peer
+//   connectionRef.current = peer;
 //     }
 
 //     const callUser = (id) => {

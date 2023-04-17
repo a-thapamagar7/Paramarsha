@@ -47,7 +47,6 @@ router.post("/epay", authMiddleware("user"), async (req, res) => {
           if (error) {
             return res.json({status: "error", message: "request_failed"});
           } else {
-            console.log(body)
             return res.json({status: "success", message: "request_successful", data: body});
           }
         }
@@ -83,6 +82,26 @@ router.post("/transaction", authMiddleware("user"), async (req, res) => {
   }
 
 });
+
+router.get("/getpaymentinfo", async (req, res) => {
+  try {
+      const payment = await Payment.find({}).populate("user", "firstName lastName email")
+      return res.json({ status: "success", message: "data_added", data: payment })
+  } catch (err) {
+      return res.json({ status: "error", message: "There is an error" })
+
+  }
+})
+
+router.delete("/payment/delete/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+      const payment = await Payment.findByIdAndDelete(id)
+      return res.json({ status: "success", message: "data_deleted" })
+  } catch (err) {
+      return res.json({ status: "error", message: "There is an error" })
+  }
+})
 
 
 module.exports = router

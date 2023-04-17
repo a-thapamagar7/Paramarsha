@@ -10,11 +10,17 @@ router.post("/review/create", authMiddleware("user") , async (req, res) => {
     const { facilities, education, overallRating, college } = req.body
     if (!facilities || !education || !overallRating|| !college)
         return res.json({ error: "input_empty", message: "Required field is empty" })
+    
+    
 
     try {
         const token = req.headers['x-access-token']
         const decodedToken = jwt.verify(token, "ajadfjk242");
         const userID = decodedToken.userID;
+
+        const already = await Review.find({ college: req.body.college,  user: userID})
+        if(already.length > 0)
+            return res.json({ error: "input_exists", message: "The user has already reviewed" })
         await Review.create({ 
             facilities: req.body.facilities,
             education: req.body.education,
@@ -24,7 +30,8 @@ router.post("/review/create", authMiddleware("user") , async (req, res) => {
             comment: req.body.comment
             
         })
-        return res.json({ status: "success", message: "data_added"})
+        const userDetails = await User.findOne({ _id: userID }).select("firstName lastName")
+        return res.json({ status: "success", message: "data_added", firstName: userDetails.firstName, lastName: userDetails.lastName})
     } catch (err) {
         return res.json({ status: "error", message: "There is an error" })
 
@@ -54,6 +61,24 @@ router.get("/getcolleges/:collegeID", async (req, res) => {
     });
 })
 
+router.get("/getreviewinfo", async (req, res) => {
+    try {
+        const review = await Review.find({}).populate("user", "firstName lastName email").populate("college", "name")
+        return res.json({ status: "success", message: "data_added", data: review })
+    } catch (err) {
+        return res.json({ status: "error", message: "There is an error" })
 
+    }
+})
+
+router.delete("/review/delete/:id", async (req, res) => {
+    const id = req.params.id;
+    try {
+        const review = await Review.findByIdAndDelete(id)
+        return res.json({ status: "success", message: "data_deleted" })
+    } catch (err) {
+        return res.json({ status: "error", message: "There is an error" })
+    }
+  })
 
 module.exports = router

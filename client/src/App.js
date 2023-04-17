@@ -19,6 +19,15 @@ import AdminUniversties from "./Components/AdminUniversities";
 import AdminColleges from "./Components/AdminColleges";
 import ContentDetails from "./Components/ContentDetails";
 import EPayment from "./Components/EPayment";
+import VideoChat from "./Components/VideoChat";
+import LobbyScreen from "./screens/Lobby";
+import RoomPage from "./screens/Room";
+import AdminDashboard from "./Components/AdminDashboard";
+import AdminUsers from "./Components/AdminUsers";
+import AdminPayments from "./Components/AdminPayments";
+import AdminReviews from "./Components/AdminReviews";
+import Quiz from "./Components/Quiz";
+import ScheduleMeeting from "./Components/ScheduleMeeting";
 
 const App = () => {
   return (
@@ -36,13 +45,22 @@ const App = () => {
         <Route path="/admin/courses/update/:id" element={<CreateCourse />} />
         <Route path="/admin/universities/add" element={<CreateUniversity />} />
         <Route path="/admin/universities/add/:id" element={<CreateUniversity />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/mocktest" element={<CreateMockTest />} />
         <Route path="/test" element={<Mocktest />} />
         <Route path="/epay" element={<EPayment />} />
         <Route path="/admin/subjects" element={<AdminSubjects />} />
         <Route path="/admin/courses" element={<AdminCourses />} />
         <Route path="/admin/universities" element={<AdminUniversties />} />
+        <Route path="/admin/users" element={<AdminUsers />} />
+        <Route path="/admin/payments" element={<AdminPayments />} />
         <Route path="/admin/colleges" element={<AdminColleges />} />
+        <Route path="/admin/reviews" element={<AdminReviews />} />
+        <Route path="/lobby" element={<LobbyScreen />} />
+        <Route path="/meeting" element={<ScheduleMeeting />} />
+        <Route path="/quiz" element={<Quiz />} />
+        <Route path="/room/:roomId" element={<RoomPage />} />
+        <Route path="/video" element={<VideoChat />} />
       </Routes>
     </div>
   );

@@ -47,7 +47,7 @@ const Collegesection = () => {
             <div className="w-full h-96 flex flex-row" style={{ justifyContent: "space-between", height: "350px"}}>
                 {content.map((value, index)=>{
                     return(
-                        <Contentcards image={value.imgURL} name={value.name} rating="4" address={value.location} items={value.subjects}/>
+                        <Contentcards overallRating={Math.trunc(value.overallRating)} image={value.imgURL} name={value.name} rating="4" address={value.location} items={value.subjects}/>
                     )
                 })}
                

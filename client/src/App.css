@@ -116,8 +116,12 @@
 .productCard, .featureCard, .subjectCard { 
     transition: all .14s ease-in-out; 
 }
+
+.quizCard { 
+    transition: all .0.6s ease-in-out; 
+}
     
-.productCard:hover, .featureCard:hover, .subjectCard:hover { 
+.productCard:hover, .featureCard:hover, .subjectCard:hover, .quizCard:hover { 
     transform: scale(1.17); 
 }
 

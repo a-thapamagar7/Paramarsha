@@ -1,6 +1,10 @@
+import { useNavigate } from "react-router-dom";
 import param2 from "../Images/param2.png";
 
 const Footer = () => {
+
+    const navigate = useNavigate();
+
     return ( 
         <footer className="bg-gray-800 text-white py-8 mt-32 lato">
             <div className="container mx-auto px-4">
@@ -11,11 +15,12 @@ const Footer = () => {
                 </div>
                 <div className="md:w-1/4 mb-8 md:mb-0">
                     <h3 className="text-lg font-bold mb-4">Links</h3>
-                    <ul>
-                    <li><a href="#" className="text-gray-400 hover:text-white">Home</a></li>
-                    <li><a href="#" className="text-gray-400 hover:text-white">About</a></li>
-                    <li><a href="#" className="text-gray-400 hover:text-white">Contact</a></li>
-                    <li><a href="#" className="text-gray-400 hover:text-white">FAQ</a></li>
+                    <ul className="text-gray-400">
+                    <li onClick={()=>{navigate("/")}} className="hover:text-white cursor-pointer">Home</li>
+                    <li onClick={()=>{navigate("/content/colleges")}} className="hover:text-white cursor-pointer">College</li>
+                    <li onClick={()=>{navigate("/content/universities")}} className="hover:text-white cursor-pointer">University</li>
+                    <li onClick={()=>{navigate("/content/courses")}} className="hover:text-white cursor-pointer">Course</li>
+                    <li onClick={()=>{navigate("/content/subjects")}} className="hover:text-white cursor-pointer">Subject</li>
                     </ul>
                 </div>
                 <div className="md:w-1/4 mb-8 md:mb-0">

@@ -61,7 +61,7 @@ const InformationShowcase = () => {
     {
       getDataInfo(setContent, "http://localhost:1447/api/getsubjectinfo")
     }
-    else if(topic === "course")
+    else if(topic === "courses")
     {
       getDataInfo(setContent, "http://localhost:1447/api/getcourseinfo")
     }

@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 
-const ComboBox = ({ options, selectedValue, onValueChange }) => {
+const ComboBox = ({ options, selectedValue, onValueChange, border }) => {
   const handleChange = (event) => {
     onValueChange(event.target.value);
   };
 
   return (
     <div>
-      <select className="border
-       border-black py-2 px-3 w-full" id="combo-box" value={selectedValue} onChange={handleChange}>
+      <select className={"border-black py-2 px-3 w-full "+(border? "border-0":"border")} id="combo-box" value={selectedValue} onChange={handleChange}>
         <option value="">Choose an option</option>
         {options.map((option, index) => (
           <option key={option.value + index} value={option.value}>

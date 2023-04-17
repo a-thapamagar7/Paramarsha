@@ -65,14 +65,14 @@ const AdminColleges = () => {
                     <thead>
                         <tr className="grid border-y grid-cols-12 place-items-center h-11 bg-gray-100">
                             <th className="col-span-1">S.N.</th>
-                            <th className="col-span-2">NAME</th>
-                            <th className="col-span-1">LOCATION</th>
-                            <th className="col-span-1">WEBSITE</th>
-                            <th className="col-span-2">UNIVERSITY</th>
-                            <th className="col-span-1">FEE</th>
-                            <th className="col-span-1">DESCRIPTION</th>
-                            <th className="col-span-1">SUBJECTS</th>
-                            <th className="col-span-1">COURSES</th>
+                            <th className="col-span-2">Name</th>
+                            <th className="col-span-1">Location</th>
+                            <th className="col-span-1">Website</th>
+                            <th className="col-span-2">University</th>
+                            <th className="col-span-1">Fee</th>
+                            <th className="col-span-1">Description</th>
+                            <th className="col-span-1">Subjects</th>
+                            <th className="col-span-1">Courses</th>
                             <th className="col-span-1"></th>
                         </tr>
                     </thead>

@@ -50,29 +50,38 @@ router.get("/getrequireduniversity/:id", async (req, res) => {
 })
 
 router.get("/gethighestuniversity", async (req, res) => {
-    // const collegeNames = await College.aggregate([
-    //     {
-    //       $lookup: {
-    //         from: 'review-data',
-    //         localField: '_id',
-    //         foreignField: 'college',
-    //         as: 'reviewsData'
-    //       }
-    //     },
-    //     {
-    //       $addFields: {
-    //         overallRating: { $avg: '$reviewsData.overallRating' } 
-    //       }
-    //     },
-    //     {
-    //       $sort: { overallRating: -1 }
-    //     },
-    //     {
-    //       $limit: 3
-    //     }
-    //   ]);
-    // const universities = await University.find({ colleges: { $in: collegeNames } })
-    // return res.json({ status: 'success', message: 'data_added', data: universities });
+    const collegeNames = await College.aggregate([
+        {
+          $lookup: {
+            from: 'review-data',
+            localField: '_id',
+            foreignField: 'college',
+            as: 'reviewsData'
+          }
+        },
+        {
+          $addFields: {
+            overallRating: { $avg: '$reviewsData.overallRating' } 
+          }
+        },
+        {
+          $sort: { overallRating: -1 }
+        },
+        {
+          $limit: 3
+        },
+        {
+          $project: {
+            _id: 0,
+            name: 1
+          }
+        }
+      ]);
+      
+      // Extract only the names from the collegeNames array
+      const namesArray = collegeNames.map(college => college.name);
+      const universities = await University.find({ colleges: { $in: namesArray } })
+    return res.json({ status: 'success', message: 'data_added', data: universities });
 })
 
 router.get("/getuniversityinfo", async (req, res) => {

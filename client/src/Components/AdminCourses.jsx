@@ -67,9 +67,9 @@ const AdminCourses = () => {
                     <thead>
                         <tr className="grid border-y grid-cols-12 place-items-center h-11 bg-gray-100">
                             <th className="col-span-1">S.N.</th>
-                            <th className="col-span-2">NAME</th>
-                            <th className="col-span-5">DESCRIPTION</th>
-                            <th className="col-span-2">SUBJECTS</th>
+                            <th className="col-span-2">Name</th>
+                            <th className="col-span-5">Description</th>
+                            <th className="col-span-2">Subjects</th>
                             <th className="col-span-2"></th>
                         </tr>
                     </thead>

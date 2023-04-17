@@ -1,9 +1,8 @@
 require('dotenv').config();
 const express = require("express")
 const app = express()
-const cors = require("cors")
 const mongoose = require("mongoose")
-const loginRegister = require("./routes/LoginRegister")
+const loginRegister = require("./routes/User")
 const createQuestion = require("./routes/Mocktest")
 const subject = require("./routes/Subject")
 const course = require("./routes/Course")
@@ -12,10 +11,52 @@ const college = require("./routes/College")
 const review = require("./routes/Review")
 const others = require("./routes/Others")
 const payment = require("./routes/Payment")
-const video = require("./routes/Video")
 
-//allows communication between ports
-app.use(cors())
+const emailToSocketIdMap = new Map();
+const socketidToEmailMap = new Map();
+
+const server = require("http").createServer(app);
+const cors = require("cors");
+
+const io = require("socket.io")(server, {
+	cors: {
+		origin: "*",
+		methods: [ "GET", "POST" ]
+	}
+});
+
+io.on("connection", (socket) => {
+	socket.on("room:join", (data) => {
+	  const { email, room } = data;
+	  emailToSocketIdMap.set(email, socket.id);
+	  socketidToEmailMap.set(socket.id, email);
+	  io.to(room).emit("user:joined", { email, id: socket.id });
+	  socket.join(room);
+	  io.to(socket.id).emit("room:join", data);
+	});
+  
+	socket.on("user:call", ({ to, offer }) => {
+	  io.to(to).emit("incomming:call", { from: socket.id, offer });
+	});
+  
+	socket.on("call:accepted", ({ to, ans }) => {
+	  io.to(to).emit("call:accepted", { from: socket.id, ans });
+	});
+  
+	socket.on("peer:nego:needed", ({ to, offer }) => {
+	  io.to(to).emit("peer:nego:needed", { from: socket.id, offer });
+	});
+  
+	socket.on("peer:nego:done", ({ to, ans }) => {
+	  io.to(to).emit("peer:nego:final", { from: socket.id, ans });
+	});
+});
+
+app.use(cors());
+
+app.get('/', (req, res) => {
+	res.send('Running');
+});
 //convert body to json
 app.use(express.json())
 
@@ -50,9 +91,6 @@ app.use("/api", review)
 // for review
 app.use("/api", payment)
 
-app.use(payment)
-
-
-app.listen(1447, () => {
+server.listen(1447, () => {
     console.log('Server started on 1447')
 })
