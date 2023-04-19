@@ -152,10 +152,7 @@ const CreateCollege = () => {
         })
         const data = await response.json()
         if (data.message === "data_added") {
-            const newError = { ...error }
-            newError.message = "Added"
-            newError.style = "text-red-700 text-lg"
-            setError(newError)
+            navigate("/admin/colleges")
             
         } else {
             const newError = { ...error }
@@ -264,7 +261,7 @@ const CreateCollege = () => {
                 </div>
 
                 <div className="grid grid-cols-12 items-center w-2/3 gap-y-4">
-                        <div className="col-span-12">Colleges</div>
+                        <div className="col-span-12">Courses</div>
                         {availableCourses.map((v, i) => {
                             return (
                                 <div key={v.name+i} className='flex items-center gap-x-3 col-span-6'>
@@ -276,7 +273,7 @@ const CreateCollege = () => {
                 </div>
 
                 <div className="grid grid-cols-12 items-center w-full gap-y-4">
-                        <div className="col-span-12">Courses</div>
+                        <div className="col-span-12">Univeristy</div>
                         <div className="w-80">
                             <ComboBox options={availableUniversities} selectedValue={university} onValueChange={handleValueChange} />
                         </div>

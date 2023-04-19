@@ -11,6 +11,7 @@ const college = require("./routes/College")
 const review = require("./routes/Review")
 const others = require("./routes/Others")
 const payment = require("./routes/Payment")
+const meeting = require("./routes/Meeting")
 
 const emailToSocketIdMap = new Map();
 const socketidToEmailMap = new Map();
@@ -88,8 +89,11 @@ app.use("/api", others)
 // for review
 app.use("/api", review)
 
-// for review
+// forpayment
 app.use("/api", payment)
+
+// for meeting
+app.use("/api", meeting)
 
 server.listen(1447, () => {
     console.log('Server started on 1447')

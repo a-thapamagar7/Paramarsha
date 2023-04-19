@@ -86,9 +86,16 @@ router.post("/getquestions", async (req, res) => {
         return res.json({ status: "error", message: "There is an error" })
     }
 
+})
 
+router.get("/getquestioninfo", async (req, res) => {
+    try {
+        const question = await Question.find({})
+        return res.json({ status: "success", message: "data_added", data: question })
+    } catch (err) {
+        return res.json({ status: "error", message: "There is an error" })
 
-
+    }
 })
 
 module.exports = router

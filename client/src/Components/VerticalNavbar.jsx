@@ -29,8 +29,11 @@ const VerticalNavbar = () => {
                 <div onClick={()=>{navigate("/admin/payments")}} className="block py-2.5 px-4 rounded hover:bg-gray-800  cursor-pointer">
                     Payments
                 </div>
-                <div onClick={()=>{navigate("/admin/reviews")}} className="block py-2.5 px-4 rounded hover:bg-gray-800  cursor-pointer">
-                    Reviews
+                <div onClick={()=>{navigate("/admin/questions")}} className="block py-2.5 px-4 rounded hover:bg-gray-800  cursor-pointer">
+                    Questions
+                </div>
+                <div onClick={()=>{navigate("/admin/payments")}} className="block py-2.5 px-4 rounded hover:bg-gray-800  cursor-pointer">
+                    Payments
                 </div>
                 <div className={"block py-2.5 px-4 rounded hover:bg-gray-800 " + `${showServicesDropdown ? 'bg-gray-800' : ''}`} onClick={() => setShowServicesDropdown(!showServicesDropdown)} >
                     

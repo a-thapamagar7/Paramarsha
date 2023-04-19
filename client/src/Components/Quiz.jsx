@@ -112,7 +112,7 @@ const Quiz = () => {
             const diffColleges = college.map(college => ({
                 ...college,
                 diff: Math.abs(collegeFee - college.approximateFee)
-              }));
+            }));
               
               // Sort colleges based on the calculated absolute difference
             diffColleges.sort((a, b) => a.diff - b.diff);

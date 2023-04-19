@@ -229,7 +229,7 @@ const AdminUsers = () => {
                                 <td className="col-span-2 w-full h-full border-r"><input className="w-full h-full bg-transparent outline-none" onChange={(e) => { setLastName(e.target.value) }} value={lastName} /></td>
                                 <td className="col-span-2 w-full h-full border-r"><input className="w-full h-full bg-transparent outline-none" onChange={(e) => { setEmail(e.target.value) }} value={email} /></td>
                                 <td className="col-span-1 w-full h-full border-r"><input className="w-full h-full bg-transparent outline-none" onChange={(e) => { setPassword(e.target.value) }} value={password} /></td>
-                                <td className="col-span-2 w-full h-full border-r"><ComboBox border={true} options={availableRoles} selectedValue={role} onValueChange={handleChangeRole}/></td>
+                                <td className="col-span-2 w-full h-full border-r flex items-center justify-center"><ComboBox border={true} options={availableRoles} selectedValue={role} onValueChange={handleChangeRole}/></td>
                                 <td className="col-span-1 w-full h-full border-r flex items-center justify-center"><input type="checkbox" className="w-4/6 h-4/6 bg-transparent outline-none" onChange={(e) => { setIsPaidMember(e.target.checked) }} value={isPaidMember} /></td>
                                 
                         

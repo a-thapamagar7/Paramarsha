@@ -9,7 +9,7 @@ const User = require("../models/users.model")
 
 
 router.post("/epay", authMiddleware("user"), async (req, res) => {
-    // try {
+    try {
     const token = req.headers['x-access-token']
     const decodedToken = jwt.verify(token, "ajadfjk242");
     const userID = decodedToken.userID;
@@ -51,7 +51,13 @@ router.post("/epay", authMiddleware("user"), async (req, res) => {
           }
         }
       );
+    }
+    catch {
+      return res.json({ status: "error", message: "There is an error" })
+    }
+      
     });
+    
 
 router.post("/transaction", authMiddleware("user"), async (req, res) => {
   try{
@@ -94,9 +100,15 @@ router.get("/getpaymentinfo", async (req, res) => {
 })
 
 router.delete("/payment/delete/:id", async (req, res) => {
+  
   const id = req.params.id;
   try {
       const payment = await Payment.findByIdAndDelete(id)
+      const answer = await Payment.findById(id).select("user")
+      await User.findByIdAndUpdate(answer.user, {isPaidMember: false})
+
+      
+      
       return res.json({ status: "success", message: "data_deleted" })
   } catch (err) {
       return res.json({ status: "error", message: "There is an error" })

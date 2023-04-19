@@ -203,9 +203,12 @@ const CreateMockTest = () => {
                             <div className="p-5 w-1/2 flex flex-col gap-y-12">
                                 <div className="text-4xl font-sans font-extrabold tracking-tight text-gray-900 w-full flex">Create Mock Questions</div>
                                 <form onSubmit={OnStartSubmit} className="flex flex-col gap-x-4 gap-y-7 text-lg">
-                                    <div className="flex justify-between">
+                                    <div className="flex justify-between items-center">
                                         <label className="">Method: </label>
-                                        <ComboBox options={methodOptions} selectedValue={selectedValue} onValueChange={handleValueChange} />
+                                        <div className='w-80'>
+                                            <ComboBox options={methodOptions} selectedValue={selectedValue} onValueChange={handleValueChange} />
+                                        </div>
+                                        
                                     </div>
                                     <button type="submit" className='border w-2/6 h-10 bg-blue-700 spacegrotesk text-sm text-white'>Start</button>
 

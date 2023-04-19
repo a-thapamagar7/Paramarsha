@@ -28,6 +28,7 @@ import AdminPayments from "./Components/AdminPayments";
 import AdminReviews from "./Components/AdminReviews";
 import Quiz from "./Components/Quiz";
 import ScheduleMeeting from "./Components/ScheduleMeeting";
+import AdminMockTest from "./Components/AdminMockTest";
 
 const App = () => {
   return (
@@ -52,6 +53,7 @@ const App = () => {
         <Route path="/admin/subjects" element={<AdminSubjects />} />
         <Route path="/admin/courses" element={<AdminCourses />} />
         <Route path="/admin/universities" element={<AdminUniversties />} />
+        <Route path="/admin/questions" element={<AdminMockTest />} />
         <Route path="/admin/users" element={<AdminUsers />} />
         <Route path="/admin/payments" element={<AdminPayments />} />
         <Route path="/admin/colleges" element={<AdminColleges />} />

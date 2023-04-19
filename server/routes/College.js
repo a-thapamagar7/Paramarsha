@@ -62,10 +62,6 @@ router.get("/getcollegeinfo", async (req, res) => {
 
 router.get("/gethighestcollege", async (req, res) => {
     const colleges = await College.aggregate([
-        // Stage 1: Match colleges (if needed)
-        // { $match: { ... } },
-      
-        // Stage 2: Lookup reviews data
         {
           $lookup: {
             from: 'review-data', // Collection name of the 'Reviews' model

@@ -75,15 +75,6 @@ router.get("/getnumbers", async (req, res) => {
 })
 
 
-router.get("/getquizsubjects", async (req, res) => {
-    try {
-          const distinctSubjectsArray = await College.distinct('subjects');
-        return res.json({ status: "success", message: "data_found", data: distinctSubjectsArray })
-    } catch (err) {
-        return res.json({ status: "error", message: "There is an error" })
-    }
-
-})
 
 router.get("/getquizsubjects", async (req, res) => {
     try {

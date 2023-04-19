@@ -27,7 +27,6 @@ const CreateSubject = () => {
         })
 
         const data = await response.json()
-        console.log(data.message)
         if (data.message == "data_added") {
             const newError = { ...error }
             newError.message = "The questions have been sucessfully added"
