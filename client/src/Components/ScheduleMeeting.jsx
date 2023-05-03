@@ -10,11 +10,13 @@ const ScheduleMeeting = () => {
     const [roomCode, setRoomCode] = useState("")
     const [error, setError] = useState({})
     const [availableMeeting, setAvailableMeeting] = useState({})
-    const [role, setRole] = useState("")
+    const [user, setUser] = useState("")
 
     useEffect(()=>{
-
+        GetMeetings()
     },[])
+
+    
 
     const SendMeeting = async() => {
         const scheduledDate = `${date}T${time}:00.000Z`;
@@ -47,6 +49,25 @@ const ScheduleMeeting = () => {
         }
     }
 
+    const GetMeetings = async() => {
+        const response = await fetch("http://localhost:1447/api/getmeetings", {
+            method: "POST",
+            //sends the data in json format
+            headers: {
+                'x-access-token': localStorage.getItem('token'),
+                "Content-Type": "application/json"
+            }
+        })
+
+        const data = await response.json()
+        console.log(data)
+        setUser(data.user)
+        if (data.data) {
+            setAvailableMeeting(data.data)
+        }
+            
+    }
+
     const OnSubmit = () => {
         if(date === "" || time === ""){
             const newError = { ...error }
@@ -73,20 +94,24 @@ const ScheduleMeeting = () => {
                     <div className="w-full flex flex-col gap-y-3">
                         <div className="font-bold tracking-tight text-2xl">Request <span className="text-blue-700">Meeting</span></div>
                         <hr/>
-                        <div className="w-full grid grid-cols-12 h-52 rounded shadow-xl border px-7 py-4 lato gap-x-6 gap-y-4">
-                            <div className="text-sm font-bold col-span-2">Counselor:</div>
-                            <div className="text-sm font-bold col-span-10 text-blue-700">???</div>
-                            <div className="text-sm font-bold col-span-2 flex h-8 items-center">Date:</div>
-                            <input value={date} onChange={(e)=>{setDate(e.target.value)}} type="date" className="col-span-4 text-sm border-2 h-8"/>
-                            <div className="text-sm font-bold col-span-2 flex h-8 items-center">Time:</div>
-                            <input value={time} onChange={(e)=>{setTime(e.target.value)}} type="time" className="col-span-4 text-sm border-2 h-8"/>
-                            <div className="text-sm font-bold col-span-2 flex h-8 items-center">Room Code:</div>
-                            <input value={roomCode} onChange={(e)=>{setRoomCode(e.target.value)}} className="col-span-4 text-sm border-2 h-8"/>
-                            <div className="col-span-12 grid grid-cols-12">
-                                <button onClick={OnSubmit} className="col-span-3 text-white text-sm bg-blue-700 h-10">Request</button>
+                        {availableMeeting? 
+                            <></>
+                        :
+                            <div className="w-full grid grid-cols-12 h-52 rounded shadow-xl border px-7 py-4 lato gap-x-6 gap-y-4">
+                                <div className="text-sm font-bold col-span-2">Counselor:</div>
+                                <div className="text-sm font-bold col-span-10 text-blue-700">???</div>
+                                <div className="text-sm font-bold col-span-2 flex h-8 items-center">Date:</div>
+                                <input value={date} onChange={(e)=>{setDate(e.target.value)}} type="date" className="col-span-4 text-sm border-2 h-8"/>
+                                <div className="text-sm font-bold col-span-2 flex h-8 items-center">Time:</div>
+                                <input value={time} onChange={(e)=>{setTime(e.target.value)}} type="time" className="col-span-4 text-sm border-2 h-8"/>
+                                <div className="text-sm font-bold col-span-2 flex h-8 items-center">Room Code:</div>
+                                <input value={roomCode} onChange={(e)=>{setRoomCode(e.target.value)}} className="col-span-4 text-sm border-2 h-8"/>
+                                <div className="col-span-12 grid grid-cols-12">
+                                    <button onClick={OnSubmit} className="col-span-3 text-white text-sm bg-blue-700 h-10">Request</button>
+                                </div>
+                                
                             </div>
-                            
-                        </div>
+                        }
                     </div>
                 </div>
             </div>

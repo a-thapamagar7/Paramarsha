@@ -51,6 +51,7 @@ const CreateCollege = () => {
         });
 
         const answer = await response.json();
+        
         setName(answer.data.name)
         setDescription(answer.data.description)
         setSubjects(answer.data.subjects)

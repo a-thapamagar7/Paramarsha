@@ -45,23 +45,23 @@ router.post("/meeting/create", authMiddleware("user") , async (req, res) => {
     }
 })
 
-router.post("/getreviews", async (req, res) => {
+router.post("/getmeetings", async (req, res) => {
 
     const token = req.headers['x-access-token']
     const decodedToken = jwt.verify(token, "ajadfjk242");
     const userID = decodedToken.userID;
     const userDetails = await User.findOne({ _id: userID }).select("firstName lastName role")
-    const meetingDetails = []
+    let meetingDetails = []
     if(userDetails.role === "counselor"){
-        meetingDetails = await Meeting.find({ counselor: userID }).populate("user-data", "firstName lastName role")
+        meetingDetails = await Meeting.find({ counselor: userID }).populate("user", "firstName lastName role")
     }
-    else if (userDetails.role === "counselor"){
-        meetingDetails = await Meeting.find({ user: userID }).populate("user-data", "firstName lastName role")
+    else if (userDetails.role === "user"){
+        meetingDetails = await Meeting.findOne({ user: userID }).populate("user", "firstName lastName role")
     }
-    
+    console.log(meetingDetails)
 
     // return reviews and averages
-    return res.json({ status: "success", message: "data_returned", data: reviews, allReviews: { facilitiesAvg, educationAvg, overallRatingAvg}});
+    return res.json({ status: "success", message: "data_returned", data: meetingDetails, user: userDetails});
 })
 
 module.exports = router
