@@ -3,6 +3,8 @@ import editImg from "../Images/edit.png"
 import deleteImg from "../Images/delete.png"
 import { useNavigate } from "react-router-dom";
 import VerticalNavbar from "./VerticalNavbar";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AdminColleges = () => {
     const navigate = useNavigate()
@@ -40,23 +42,20 @@ const AdminColleges = () => {
             }
         })
         const answer = await response.json();
-        if (answer.message == "data_deleted") {
-            const newError = { ...error }
-            newError.message = "The data has been deleted"
-            newError.style = rightError
-            setError(newError)
+        if (answer.status == "success") {
+            toast.success(answer.message)
             const newData = college.filter(item => item._id !== userId);
             setCollege(newData)
         }
         else {
-            error.message = "There was an error deleting data"
-            error.style = wrongError
+            toast.success(answer.message)
         }
     }
 
 
     return (
         <div className="flex flex-row w-full">
+            <ToastContainer/>
             <VerticalNavbar/>
             <div className="flex w-full pt-10 px-10 flex-col pb-10">
                 <div className="text-2xl mb-10 font-bold tracking-tight spacegrotesk text-gray-500"><span>Colleges</span></div>
@@ -90,7 +89,7 @@ const AdminColleges = () => {
                                     <td className="relative col-span-1 px-4 py-2 overflow-hidden overflow-ellipsis whitespace-nowrap max-w-full">
                                         {value.description}
                                     </td>
-                                    <td className="gap-x-1 col-span-1 px-4 py-2 overflow-hidden overflow-ellipsis whitespace-nowrap max-w-full hover:overflow-x-scroll">
+                                    <td className="gap-x-1 col-span-1 px-4 py-2 overflow-hidden overflow-ellipsis whitespace-nowrap max-w-full ">
                                         {value.subjects.map((val, index)=>{
                                             return(<span key={val + index} className="">{(index === value.subjects.length-1)?(<> {" " + val}</>):(<>{val + ","} </>)}</span>)
                                         })}

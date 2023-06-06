@@ -84,8 +84,8 @@ const InformationShowcase = () => {
         <Navbar/>
         <div className="w-full flex flex-row mt-10 mb-10 justify-center">
           <div className='w-2/3 flex flex-row'>
-            <div onClick={()=>{navigate(`/content/${searchValue}`); window.scrollTo(0, 0)}} className="flex bg-white px-1 items-center justify-center w-2/12 searchBorder">
-                <img className="w-2/12" src={searchIcon} />
+            <div onClick={()=>{navigate(`/content/${searchValue}`); window.scrollTo(0, 0)}} className="flex bg-white px-1 items-center justify-center w-2/12 searchBorder cursor-pointer">
+                <img className="w-3/12" src={searchIcon} />
             </div>
             <input value={searchValue} onChange={(e)=>{setSearchValue(e.target.value)}}  className="w-11/12 py-1 searchBorder2 inter pr-2" style={{ fontSize: "23px" }} placeholder="Search" type="search" />
           </div>

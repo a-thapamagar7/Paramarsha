@@ -4,6 +4,8 @@ import Footer from "./Footer";
 import Navbar from "./Navbar";
 import Checkbox from "./Checkbox";
 import { capitalizeFirstLetter } from "../utils/formatter";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CreateCourse = () => {
     const wrongError = "text-red-600 text-xs"
@@ -65,12 +67,11 @@ const CreateCourse = () => {
             })
         })
         const answer = await response.json();
-        if (answer.message == "data_updated") {
+        if (answer.status == "success") {
             navigate("/admin/courses")
         }
         else {
-            error.message = "There was an error updating data"
-            error.style = wrongError
+            toast.error(answer.message)
         }
     }
 
@@ -108,24 +109,17 @@ const CreateCourse = () => {
         })
 
         const data = await response.json()
-        if (data.message == "data_added") {
-
+        if (data.status == "success") {
             navigate("/admin/courses")
         } else {
-            const newError = { ...error }
-            newError.message = "The was an error"
-            newError.style = "text-red-700 text-lg"
-            setError(newError)
+            toast.error("The was an error")
         }
     }
 
     const submitCourse = (event) => {
         event.preventDefault()
         if (!name || !description || subjects.length === 0) {
-            const newError = { ...error }
-            newError.message = "Please input all the fields"
-            newError.style = "text-red-600 text-lg"
-            setError(newError)
+            toast.error("Please input all the fields")
         }
         else {
             if(!id)
@@ -142,6 +136,7 @@ const CreateCourse = () => {
     return (
         <>
             <div className="px-20">
+                <ToastContainer/>
                 <Navbar />
                 <form onSubmit={submitCourse} className="flex flex-col mt-10 gap-y-6 lato">
                     <div className=" text-4xl tracking-tighter font-sans font-bold"><span>Add New </span><span className="text-blue-700">Course</span></div>
@@ -156,7 +151,7 @@ const CreateCourse = () => {
                         {availableSubjects.map((v, i) => {
                             return (
                                 <div key={v+i} className='flex items-center gap-x-3 col-span-4'>
-                                    <input type="checkbox" value={v.name} checked={subjects.indexOf(v.name) !== -1} onChange={handleCheckboxChange} />
+                                    <input id={v+i} type="checkbox" value={v.name} checked={subjects.indexOf(v.name) !== -1} onChange={handleCheckboxChange} />
                                     <label htmlFor={v + i} className='text-base'>{capitalizeFirstLetter(v.name)}</label>
                                 </div>
                             )

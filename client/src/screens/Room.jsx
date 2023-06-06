@@ -110,36 +110,47 @@ const RoomPage = () => {
   ]);
 
   return (
-    <div>
-      <h1>Room Page</h1>
-      <h4>{remoteSocketId ? "Connected" : "No one in room"}</h4>
-      {myStream && <button onClick={sendStreams}>Send Stream</button>}
-      {remoteSocketId && <button onClick={handleCallUser}>CALL</button>}
-      {myStream && (
-        <>
-          <h1>My Stream</h1>
-          <ReactPlayer
-            playing
-            muted
-            height="100px"
-            width="200px"
-            url={myStream}
-          />
-        </>
-      )}
+    <div className="grid grid-cols-12 px-4 h-full w-screen place-items-center">
+      <h1 className="col-span-6">Remote Stream</h1>
+      <h1 className="col-span-6">My Stream</h1>
       {remoteStream && (
         <>
-          <h1>Remote Stream</h1>
+          
           <ReactPlayer
             playing
             muted
-            height="100px"
-            width="200px"
             url={remoteStream}
+            height="400px"
+            width="500px"
+            className="col-span-6"
           />
         </>
       )}
+      {myStream && (
+        <>
+          
+          <ReactPlayer
+            playing
+            muted
+            url={myStream}
+            height="400px"
+            width="500px"
+            className="col-span-6"
+          />
+        </>
+      )}
+      
+      <div className="col-span-12 flex flex-row gap-x-10">
+        {myStream && <button className="bg-blue-700 h-fit text-sm w-fit px-4 py-2 text-white spacegrotesk" onClick={sendStreams}>Send Stream</button>}
+        {remoteSocketId && <button className="bg-blue-700 text-sm h-fit w-fit px-4 py-2 text-white spacegrotesk" onClick={handleCallUser}>CALL</button>}
+      </div>
+      <div className="col-span-12 flex flex-col">
+        <h1>Updates</h1>
+        <h4>{remoteSocketId ? "Connected" : "No one in room"}</h4>
+      </div>
+      
     </div>
+    
   );
 };
 

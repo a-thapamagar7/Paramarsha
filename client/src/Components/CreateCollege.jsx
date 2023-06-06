@@ -4,6 +4,8 @@ import Navbar from "./Navbar";
 import { useParams, useNavigate } from "react-router-dom";
 import { capitalizeFirstLetter } from "../utils/formatter";
 import ComboBox from "./ComboBox";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CreateCollege = () => {
 
@@ -152,14 +154,11 @@ const CreateCollege = () => {
             })
         })
         const data = await response.json()
-        if (data.message === "data_added") {
+        if (data.status === "success") {
             navigate("/admin/colleges")
             
         } else {
-            const newError = { ...error }
-            newError.message = "The was an error"
-            newError.style = "text-red-700 text-lg"
-            setError(newError)
+            toast.error(data.message)
         }
     }
 
@@ -183,25 +182,18 @@ const CreateCollege = () => {
             })
         })
         const answer = await response.json();
-        if (answer.message === "data_updated") {
+        if (answer.status === "success") {
             navigate("/admin/colleges")
         }
         else {
-            const newError = { ...error }
-            newError.message = "Please input all the fields"
-            newError.style = "text-red-600 text-lg"
-            setError(newError)
+            toast.error(answer.message)
         }
     }
 
     const onUniversitySubmit = async(event) => {
         event.preventDefault()
         if (!name || !description || !location|| !website || subjects.length === 0 || !university || courses.length === 0 || approximateFee < 0) {
-            const newError = { ...error }
-            console.log(university)
-            newError.message = "Please input all the fields"
-            newError.style = "text-red-600 text-lg"
-            setError(newError)
+            toast.error("All the fields are required")
         }
         else {
             if(!id)
@@ -227,83 +219,84 @@ const CreateCollege = () => {
     return (
         <>
             <div className="px-20">
-            <Navbar/>
-            <form onSubmit={onUniversitySubmit} className="flex flex-col mt-10 gap-y-7 lato">
-                <div className=" text-4xl tracking-tighter font-sans font-bold"><span>Add New </span><span className="text-blue-700">College</span></div>
-                
-                <div className="grid grid-cols-12 items-center">
-                    <div className="col-span-2">Name</div>
-                    <input value={name} onChange={(e) => setName(e.target.value)} className="border border-black col-span-4 h-8 text-sm px-2 py-4"/>
-                </div>
+                <ToastContainer/>
+                <Navbar/>
+                <form onSubmit={onUniversitySubmit} className="flex flex-col mt-10 gap-y-7 lato">
+                    <div className=" text-4xl tracking-tighter font-sans font-bold"><span>Add New </span><span className="text-blue-700">College</span></div>
+                    
+                    <div className="grid grid-cols-12 items-center">
+                        <div className="col-span-2">Name</div>
+                        <input required value={name} onChange={(e) => setName(e.target.value)} className="border border-black col-span-4 h-8 text-sm px-2 py-4"/>
+                    </div>
 
-                <div className="grid grid-cols-12 items-center">
-                    <div className="col-span-2">Location</div>
-                    <input value={location} onChange={(e) => setLocation(e.target.value)}  className="border border-black col-span-4 h-8 text-sm px-2"/>
-                </div>
-                
-                <div className="grid grid-cols-12 items-center">
-                    <div className="col-span-2">Website</div>
-                    <input value={website} onChange={(e) => setWebsite(e.target.value)}  className="border border-black col-span-4 h-8 text-sm px-2"/>
-                </div>
+                    <div className="grid grid-cols-12 items-center">
+                        <div className="col-span-2">Location</div>
+                        <input required value={location} onChange={(e) => setLocation(e.target.value)}  className="border border-black col-span-4 h-8 text-sm px-2"/>
+                    </div>
+                    
+                    <div className="grid grid-cols-12 items-center">
+                        <div className="col-span-2">Website</div>
+                        <input required value={website} onChange={(e) => setWebsite(e.target.value)}  className="border border-black col-span-4 h-8 text-sm px-2"/>
+                    </div>
 
-                <div className="grid grid-cols-12 items-center">
-                    <div className="col-span-2">Approximate Fee</div>
-                    <input type="number" value={approximateFee} onChange={(e) => setApproximateFee(e.target.value)}  className="border border-black col-span-4 h-8 text-sm px-2"/>
-                </div>
+                    <div className="grid grid-cols-12 items-center">
+                        <div className="col-span-2">Approximate Fee</div>
+                        <input required type="number" value={approximateFee} onChange={(e) => setApproximateFee(e.target.value)}  className="border border-black col-span-4 h-8 text-sm px-2"/>
+                    </div>
 
-                <div className="grid grid-cols-12 items-center">
-                    <div className="col-span-2">Logo URL</div>
-                    <input value={logoURL} onChange={(e) => setLogoURL(e.target.value)}  className="border border-black col-span-4 h-8 text-sm px-2"/>
-                </div>
+                    <div className="grid grid-cols-12 items-center">
+                        <div className="col-span-2">Logo URL</div>
+                        <input required value={logoURL} onChange={(e) => setLogoURL(e.target.value)}  className="border border-black col-span-4 h-8 text-sm px-2"/>
+                    </div>
 
-                <div className="grid grid-cols-12 items-center">
-                    <div className="col-span-2">Image URL</div>
-                    <input value={imgURL} onChange={(e) => setImgURL(e.target.value)}  className="border border-black col-span-4 h-8 text-sm px-2"/>
-                </div>
+                    <div className="grid grid-cols-12 items-center">
+                        <div className="col-span-2">Image URL</div>
+                        <input required value={imgURL} onChange={(e) => setImgURL(e.target.value)}  className="border border-black col-span-4 h-8 text-sm px-2"/>
+                    </div>
 
-                <div className="grid grid-cols-12 items-center w-2/3 gap-y-4">
-                        <div className="col-span-12">Courses</div>
-                        {availableCourses.map((v, i) => {
+                    <div className="grid grid-cols-12 items-center w-2/3 gap-y-4">
+                            <div className="col-span-12">Courses</div>
+                            {availableCourses.map((v, i) => {
+                                return (
+                                    <div key={v.name+i} className='flex items-center gap-x-3 col-span-6'>
+                                        <input id={v.name + i} type="checkbox" value={v.name} checked={courses.indexOf(v.name) !== -1} onChange={handleCheckboxCourse} />
+                                        <label htmlFor={v.name + i} className='text-base'>{capitalizeFirstLetter(v.name)}</label>
+                                    </div>
+                                )
+                            })}
+                    </div>
+
+                    <div className="grid grid-cols-12 items-center w-full gap-y-4">
+                            <div className="col-span-12">Univeristy</div>
+                            <div className="w-80">
+                                <ComboBox options={availableUniversities} selectedValue={university} onValueChange={handleValueChange} />
+                            </div>
+                            
+                    </div>
+                    
+
+                    <div className="grid grid-cols-12 items-center w-2/3 gap-y-4">
+                        <div className="col-span-12">Subjects</div>
+                        {availableSubjects.map((v, i) => {
                             return (
-                                <div key={v.name+i} className='flex items-center gap-x-3 col-span-6'>
-                                    <input id={v.name + i} type="checkbox" value={v.name} checked={courses.indexOf(v.name) !== -1} onChange={handleCheckboxCourse} />
+                                <div key={v.name + i} className='flex items-center gap-x-3 col-span-4'>
+                                    <input id={v.name + i} type="checkbox" value={v.name} checked={subjects.indexOf(v.name) !== -1} onChange={handleCheckboxSubject} />
                                     <label htmlFor={v.name + i} className='text-base'>{capitalizeFirstLetter(v.name)}</label>
                                 </div>
                             )
                         })}
-                </div>
+                    </div>
 
-                <div className="grid grid-cols-12 items-center w-full gap-y-4">
-                        <div className="col-span-12">Univeristy</div>
-                        <div className="w-80">
-                            <ComboBox options={availableUniversities} selectedValue={university} onValueChange={handleValueChange} />
-                        </div>
-                        
-                </div>
-                
+                    
 
-                <div className="grid grid-cols-12 items-center w-2/3 gap-y-4">
-                    <div className="col-span-12">Subjects</div>
-                    {availableSubjects.map((v, i) => {
-                        return (
-                            <div key={v.name + i} className='flex items-center gap-x-3 col-span-4'>
-                                <input id={v.name + i} type="checkbox" value={v.name} checked={subjects.indexOf(v.name) !== -1} onChange={handleCheckboxSubject} />
-                                <label htmlFor={v.name + i} className='text-base'>{capitalizeFirstLetter(v.name)}</label>
-                            </div>
-                        )
-                    })}
-                </div>
+                    <div className="grid grid-cols-12 items-center gap-y-4">
+                        <div className="col-span-12">Description</div>
+                        <textarea value={description} onChange={(e) => setDescription(e.target.value)}   className="border border-black col-span-8 h-40 py-2 px-3"/>
+                    </div>
 
-                
-
-                <div className="grid grid-cols-12 items-center gap-y-4">
-                    <div className="col-span-12">Description</div>
-                    <textarea value={description} onChange={(e) => setDescription(e.target.value)}   className="border border-black col-span-8 h-40 py-2 px-3"/>
-                </div>
-
-                <button type="submit" className="border bg-blue-700 text-white w-2/12 spacegrotesk h-12">Submit</button>
-                <div className={error.style}>{error.message}</div>
-            </form>
+                    <button type="submit" className="border bg-blue-700 text-white w-2/12 spacegrotesk h-12">Submit</button>
+                    <div className={error.style}>{error.message}</div>
+                </form>
         </div>
         <Footer/>
     </>

@@ -64,8 +64,10 @@ router.get("/getcolleges/:collegeID", async (req, res) => {
 router.get("/getreviewinfo", async (req, res) => {
     try {
         const review = await Review.find({}).populate("user", "firstName lastName email").populate("college", "name")
+        console.log(review)
         return res.json({ status: "success", message: "data_added", data: review })
-    } catch (err) {
+    
+        } catch (err) {
         return res.json({ status: "error", message: "There is an error" })
 
     }

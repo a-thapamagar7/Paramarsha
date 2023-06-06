@@ -6,7 +6,8 @@ import wrongImg from "../Images/cross.png"
 import addImg from "../Images/add-button.png"
 import VerticalNavbar from "./VerticalNavbar";
 import ComboBox from "./ComboBox";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AdminUsers = () => {
     const wrongError = "text-red-600 text-xs"
@@ -59,17 +60,13 @@ const AdminUsers = () => {
             }
         })
         const answer = await response.json();
-        if (answer.message == "data_deleted") {
-            const newError = { ...error }
-            newError.message = "The data has been deleted"
-            newError.style = rightError
-            setError(newError)
+        if (answer.status == "success") {
+            toast.success(answer.message)
             const newData = user.filter(item => item._id !== userId);
             setUser(newData)
         }
         else {
-            error.message = "There was an error deleting data"
-            error.style = wrongError
+            toast.error(answer.message)
         }
     }
 
@@ -83,19 +80,17 @@ const AdminUsers = () => {
                 firstName,
                 lastName,
                 email,
-                password,
                 role,
                 isPaidMember
             })
         })
         const answer = await response.json();
-        if (answer.message == "data_updated") {
+        if (answer.status == "success") {
             const index = user.findIndex(random => random._id == userId);
             const updatedSubject = Object.assign({}, user[index], { 
                 firstName,
                 lastName,
                 email,
-                password,
                 role,
                 isPaidMember });
             const newState = [...user];
@@ -108,14 +103,10 @@ const AdminUsers = () => {
             setRole(""); 
             setIsPaidMember(false); 
             setCreatePressed(false);
-            const newError = { ...error }
-            newError.message = "The data has been updated"
-            newError.style = rightError
-            setError(newError)
+            toast.success(answer.message)
         }
         else {
-            error.message = "There was an error deleting data"
-            error.style = wrongError
+            toast.error(answer.message)
         }
     }
 
@@ -139,16 +130,10 @@ const AdminUsers = () => {
 
         const answer = await response.json()
         if (answer.data) {
-            const newError = { ...error }
-            newError.message = "The user have been sucessfully added"
-            newError.style = rightError
-            setError(newError)
+            toast.success(answer.message)
             setUser(answer.data)
         } else {
-            const newError = { ...error }
-            newError.message = "There was an error"
-            newError.style = wrongError
-            setError(newError)
+            toast.error(answer.message)
         }
     }
 
@@ -167,6 +152,7 @@ const AdminUsers = () => {
 
     return (
         <div className="flex flex-row w-full">
+            <ToastContainer/>
             <VerticalNavbar/>
             <div className="flex w-full pt-10 px-10 flex-col pb-10">
                 <div className="text-2xl mb-10 font-bold tracking-tight spacegrotesk text-gray-500"><span>Users</span></div>

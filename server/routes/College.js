@@ -53,7 +53,7 @@ router.get("/getrequiredcollege/:id", async (req, res) => {
 router.get("/getcollegeinfo", async (req, res) => {
     try {
         const college = await College.find({})
-        return res.json({ status: "success", message: "data_added", data: college })
+        return res.json({ status: "success", message: "The data has been added", data: college })
     } catch (err) {
         return res.json({ status: "error", message: "There is an error" })
 
@@ -96,7 +96,7 @@ router.delete("/college/delete/:id", async (req, res) => {
     const id = req.params.id;
     try {
         const college = await College.findByIdAndDelete(id)
-        return res.json({ status: "success", message: "data_deleted" })
+        return res.json({ status: "success", message: "The data has been deleted" })
     } catch (err) {
         return res.json({ status: "error", message: "There is an error" })
     }
@@ -106,7 +106,7 @@ router.patch("/college/update/:id", async (req, res) => {
     const id = req.params.id;
     try {
         const college = await College.findByIdAndUpdate(id, req.body)
-        return res.json({ status: "success", message: "data_updated" })
+        return res.json({ status: "success", message: "The data has been updated" })
     } catch (err) {
         return res.json({ status: "error", message: "There is an error" })
     }

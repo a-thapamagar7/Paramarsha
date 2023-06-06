@@ -6,6 +6,8 @@ import wrongImg from "../Images/cross.png"
 import addImg from "../Images/add-button.png"
 import { useNavigate } from "react-router-dom";
 import VerticalNavbar from "./VerticalNavbar";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const AdminCourses = () => {
@@ -42,23 +44,20 @@ const AdminCourses = () => {
             }
         })
         const answer = await response.json();
-        if (answer.message == "data_deleted") {
-            const newError = { ...error }
-            newError.message = "The data has been deleted"
-            newError.style = rightError
-            setError(newError)
+        if (answer.status == "success") {
+            toast.success(answer.message)
             const newData = course.filter(item => item._id !== userId);
             setCourse(newData)
         }
         else {
-            error.message = "There was an error deleting data"
-            error.style = wrongError
+            toast.error(answer.message)
         }
     }
 
 
     return (
         <div className="flex flex-row w-full">
+            <ToastContainer/>
             <VerticalNavbar/>
             <div className="flex w-full pt-10 px-10 flex-col pb-10">
                 <div className="text-2xl mb-10 font-bold tracking-tight spacegrotesk text-gray-500"><span>Courses</span></div>

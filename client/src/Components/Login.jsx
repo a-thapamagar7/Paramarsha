@@ -1,6 +1,8 @@
 import { useState } from "react";
 import React from 'react';
 import { useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
 
@@ -23,17 +25,20 @@ const Login = () => {
             })
         })
         const data = await response.json();
+        console.log(data)
 
         if (data.user) {
             localStorage.setItem("token", data.user)
-            alert("Login sucessful")
-            navigate("/")
+            console.log(data.role)
+            if(data.role === "admin") navigate("/admin/users")
+            else {navigate("/")}
         } else {
-            alert("Please check your username and password")
+            toast.error(data.message)
         }
     }
     return (
         <div className="loginBG items flex justify-center items-center">
+            <ToastContainer/>
             <div className="login2BG flex shadow-xl" style={{ borderRadius: "11px" }}>
                 <div className="login21BG w-1/2" style={{ borderTopLeftRadius: "11px", borderBottomLeftRadius: "11px" }}>
                 </div>
@@ -42,8 +47,8 @@ const Login = () => {
                         <span className="font-extrabold manrope" style={{ fontSize: "22px" }}>Welcome back, User </span>
                         <div className="spacegrotesk text-xs mb-5">Welcome back! Please enter your details.</div>
                             <form className="flex flex-col text-sm" onSubmit={loginUser}>
-                                <input className="inputBorder mb-1 w-full register-login-font spacegrotesk" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" /><br />
-                                <input className="inputBorder mb-1 w-full register-login-font spacegrotesk" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" /><br />
+                                <input required className="inputBorder mb-1 w-full register-login-font spacegrotesk" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" /><br />
+                                <input required className="inputBorder mb-1 w-full register-login-font spacegrotesk" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" /><br />
                                 <div className="w-28 spacegrotesk mb-5 underline cursor-pointer" style={{ fontSize: "11px" }}>Forgot Password</div>
                                 <button type="submit" className="spacegrotesk text-xs bg-black text-white w-full h-9 rounded-sm">Log in</button>
                             </form>
