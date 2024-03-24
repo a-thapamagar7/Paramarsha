@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
-import editImg from "../Images/edit.png"
-import deleteImg from "../Images/delete.png"
-import rightImg from "../Images/check-mark.png"
-import wrongImg from "../Images/cross.png"
-import addImg from "../Images/add-button.png"
-import VerticalNavbar from "./VerticalNavbar";
+import editImg from "../../../Images/edit.png"
+import deleteImg from "../../../Images/delete.png"
+import rightImg from "../../../Images/check-mark.png"
+import wrongImg from "../../../Images/cross.png"
+import VerticalNavbar from "../../../Components/VerticalNavbar";
 
 
 const AdminSubjects = () => {
@@ -79,8 +78,6 @@ const AdminSubjects = () => {
         if (answer.message == "data_updated") {
             const index = subject.findIndex(random => random._id == userId);
             const updatedSubject = Object.assign({}, subject[index], { name, description });
-            console.log(index)
-            console.log(updatedSubject)
             const newState = [...subject];
             newState[index] = updatedSubject;
             setSubject(newState)

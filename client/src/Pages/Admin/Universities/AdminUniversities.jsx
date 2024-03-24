@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import editImg from "../Images/edit.png"
-import deleteImg from "../Images/delete.png"
+import editImg from "../../../Images/edit.png"
+import deleteImg from "../../../Images/delete.png"
 import { useNavigate } from "react-router-dom";
-import VerticalNavbar from "./VerticalNavbar";
+import VerticalNavbar from "../../../Components/VerticalNavbar";
 
 const AdminUniversties = () => {
     const navigate = useNavigate()

@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom";
-import Footer from "./Footer";
-import Navbar from "./Navbar";
-import Checkbox from "./Checkbox";
-import { capitalizeFirstLetter } from "../utils/formatter";
+import Footer from "../../../Components/Footer";
+import Navbar from "../../../Components/Navbar";
+import { capitalizeFirstLetter } from "../../../utils/formatter";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

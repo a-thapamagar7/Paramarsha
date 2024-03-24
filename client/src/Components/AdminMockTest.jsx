@@ -195,12 +195,10 @@ const AdminMockTest = () => {
                                         <td className="col-span-4 overflow-hidden overflow-ellipsis whitespace-nowrap max-w-full">{value.question}</td>
                                         <td className="col-span-1 overflow-hidden overflow-ellipsis whitespace-nowrap max-w-full">{value.subject}</td>
                                         <td className="col-span-1 overflow-hidden overflow-ellipsis whitespace-nowrap max-w-full">{value.answer}</td>
-                                        {value.options.map((value, index)=>{
-                                            return(
-                                                <td key={index + "jk"} className="col-span-1 overflow-hidden overflow-ellipsis whitespace-nowrap max-w-full">{value}</td>
-                                            )
-                                        })}
-                                       
+                                       <td key={index + "jk"} className="col-span-1 overflow-hidden overflow-ellipsis whitespace-nowrap max-w-full">{value.options[0] || ""}</td>
+                                       <td key={index + "jk"} className="col-span-1 overflow-hidden overflow-ellipsis whitespace-nowrap max-w-full">{value.options[1] || ""}</td>
+                                       <td key={index + "jk"} className="col-span-1 overflow-hidden overflow-ellipsis whitespace-nowrap max-w-full">{value.options[2] || ""}</td>
+                                       <td key={index + "jk"} className="col-span-1 overflow-hidden overflow-ellipsis whitespace-nowrap max-w-full">{value.options[3] || ""}</td>
                                         <td className="flex items-center gap-x-5 col-span-1">
                                             <button onClick={() => showEditMode(value.firstName, value.lastName, value.email, value.role, value.isPaidMember, value._id)}><img className="h-6" src={editImg} /></button>
                                             <button onClick={() => { deleteQuestions(value._id) }}><img className="h-7" src={deleteImg} /></button>

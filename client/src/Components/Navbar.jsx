@@ -17,7 +17,7 @@ const Navbar = () => {
     return (
         <div className="spacegrotesk text-base grid grid-cols-12 items-center flex-row w-full h-20">
             <div className="grid col-span-8">
-                <img src={logo} className="h-14"/>
+                <img onClick={()=>{navigate("/")}} src={logo} className="h-14"/>
             </div>
             <div className="flex col-span-4 flex-row justify-between">
                 <div className="cursor-pointer" onClick={() => navigate("/")}>Home</div>

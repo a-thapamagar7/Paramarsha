@@ -1,11 +1,8 @@
 import { useState, useEffect } from "react";
-import editImg from "../Images/edit.png"
-import deleteImg from "../Images/delete.png"
-import rightImg from "../Images/check-mark.png"
-import wrongImg from "../Images/cross.png"
-import addImg from "../Images/add-button.png"
+import editImg from "../../../Images/edit.png"
+import deleteImg from "../../../Images/delete.png"
 import { useNavigate } from "react-router-dom";
-import VerticalNavbar from "./VerticalNavbar";
+import VerticalNavbar from "../../../Components/VerticalNavbar";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

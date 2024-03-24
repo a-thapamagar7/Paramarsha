@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
-import editImg from "../Images/edit.png"
-import deleteImg from "../Images/delete.png"
-import rightImg from "../Images/check-mark.png"
-import wrongImg from "../Images/cross.png"
-import addImg from "../Images/add-button.png"
-import VerticalNavbar from "./VerticalNavbar";
-import ComboBox from "./ComboBox";
+import editImg from "../../../Images/edit.png"
+import deleteImg from "../../../Images/delete.png"
+import rightImg from "../../../Images/check-mark.png"
+import wrongImg from "../../../Images/cross.png"
+import VerticalNavbar from "../../../Components/VerticalNavbar";
+import ComboBox from "../../../Components/ComboBox";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

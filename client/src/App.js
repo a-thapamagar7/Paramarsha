@@ -6,24 +6,24 @@ import Register from "./Components/Register";
 // import VideoChat from "./Components/VideoChat";
 import './App.css';
 // import LandingPage from "./Components/LandingPage";
-import Homepage from "./Components/Homepage";
+import Homepage from "./Pages/Homepage/Homepage";
 import CreateMockTest from "./Components/CreateMockTest";
 import Mocktest from "./Components/Mocktest";
 import InformationShowcase from "./Components/InformationShowcase";
-import CreateCollege from "./Components/CreateCollege";
-import AdminSubjects from "./Components/AdminSubjects";
-import CreateCourse from "./Components/CreateCourse";
-import AdminCourses from "./Components/AdminCourses";
-import CreateUniversity from "./Components/CreateUniversity";
-import AdminUniversties from "./Components/AdminUniversities";
-import AdminColleges from "./Components/AdminColleges";
+import CreateCollege from "./Pages/Admin/Collleges/CreateCollege";
+import AdminSubjects from "./Pages/Admin/Subjects/AdminSubjects";
+import CreateCourse from "./Pages/Admin/Courses/CreateCourse";
+import AdminCourses from "./Pages/Admin/Courses/AdminCourses";
+import CreateUniversity from "./Pages/Admin/Universities/CreateUniversity";
+import AdminUniversties from "./Pages/Admin/Universities/AdminUniversities";
+import AdminColleges from "./Pages/Admin/Collleges/AdminColleges";
 import ContentDetails from "./Components/ContentDetails";
 import EPayment from "./Components/EPayment";
 import VideoChat from "./Components/VideoChat";
 import LobbyScreen from "./screens/Lobby";
 import RoomPage from "./screens/Room";
 import AdminDashboard from "./Components/AdminDashboard";
-import AdminUsers from "./Components/AdminUsers";
+import AdminUsers from "./Pages/Admin/Users/AdminUsers";
 import AdminPayments from "./Components/AdminPayments";
 import AdminReviews from "./Components/AdminReviews";
 import Quiz from "./Components/Quiz";
@@ -63,9 +63,9 @@ const App = () => {
         <Route path="/quiz" element={<Quiz />} />
         <Route path="/room/:roomId" element={<RoomPage />} />
         <Route path="/video" element={<VideoChat />} />
-        <Route path="/meeting" element={<PaidMember><ScheduleMeeting/></PaidMember>} />
-        <Route path="/epay"  element={
-          <EPayment/>}/>
+        <Route path="/meeting" element={<PaidMember><ScheduleMeeting /></PaidMember>} />
+        <Route path="/epay" element={
+          <EPayment />} />
       </Routes>
     </div>
   );

@@ -2,23 +2,23 @@ import { useState } from "react";
 import React from 'react';
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom"
-import Navbar from "./Navbar";
-import searchIcon from "../Images/search-icon.png";
-import mainImage from "../Images/image.png"
-import mainImage1 from "../Images/image1.png"
-import mainImage2 from "../Images/image2.png"
-import mainImage3 from "../Images/image3.png"
-import mainImage4 from "../Images/image4.png"
-import test from "../Images/test.png"
-import quiz from "../Images/quiz.png"
-import review from "../Images/review.png"
-import call from "../Images/video-call.png";
-import college from "../Images/college.png";
-import Collegesection from "./Collegesection";
-import Universitysection from "./Universitysection";
-import Footer from "./Footer";
-import Features from "./Features";
-import Subjectcard from "./Subjectcard";
+import Navbar from "../../Components/Navbar";
+import searchIcon from "../../Images/search-icon.png";
+import mainImage from "../../Images/image.png"
+import mainImage1 from "../../Images/image1.png"
+import mainImage2 from "../../Images/image2.png"
+import mainImage3 from "../../Images/image3.png"
+import mainImage4 from "../../Images/image4.png"
+import test from "../../Images/test.png"
+import quiz from "../../Images/quiz.png"
+import review from "../../Images/review.png"
+import call from "../../Images/video-call.png";
+import college from "../../Images/college.png";
+import Collegesection from "../../Components/Collegesection";
+import Universitysection from "../../Components/Universitysection";
+import Footer from "../../Components/Footer";
+import Features from "../../Components/Features";
+import Subjectcard from "../../Components/Subjectcard";
 
 const Homepage = () => {
 
@@ -69,10 +69,10 @@ const Homepage = () => {
                         <div className="text-lg mt-8 text-justify lato">
                             With our professional advice and extensive tools, find the ideal bachelor program, college, and university in Nepal. Make a well-informed choice to ensure your future academic and professional success. Welcome to our website "Paramarsha".
                         </div>
-                        <form className="w-full flex flex-row mt-10">
-                            <div onClick={()=>{navigate(`/content/${searchValue}`)}} className="flex bg-white px-1 items-center justify-center w-2/12 searchBorder cursor-pointer">
+                        <form onSubmit={(e)=>{e.preventDefault(); navigate(`/content/${searchValue}`)}} className="w-full flex flex-row mt-10">
+                            <button className="flex bg-white px-1 items-center justify-center w-2/12 searchBorder cursor-pointer">
                                 <img className="w-4/12" src={searchIcon} />
-                            </div>
+                            </button>
                             <input value={searchValue} onChange={(e)=>{setSearchValue(e.target.value)}}  className="w-11/12 py-1 searchBorder2 inter pr-2" style={{ fontSize: "23px" }} placeholder="Search" type="search" />
                         </form>
                     </div>
