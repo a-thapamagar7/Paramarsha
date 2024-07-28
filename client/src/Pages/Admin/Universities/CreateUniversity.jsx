@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom";
-import Footer from "../../../Components/Footer";
-import Navbar from "../../../Components/Navbar";
-import Checkbox from "../../../Components/Checkbox";
+import Footer from "../../../Components/Common/Footer";
+import Navbar from "../../../Components/Common/Navbar";
+import Checkbox from "../../../Components/Common/Checkbox";
 import { capitalizeFirstLetter } from "../../../utils/formatter";
 
 const CreateUniversity = () => {

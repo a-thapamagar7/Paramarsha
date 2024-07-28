@@ -3,7 +3,7 @@ import editImg from "../../../Images/edit.png"
 import deleteImg from "../../../Images/delete.png"
 import rightImg from "../../../Images/check-mark.png"
 import wrongImg from "../../../Images/cross.png"
-import VerticalNavbar from "../../../Components/VerticalNavbar";
+import VerticalNavbar from "../../../Components/Common/VerticalNavbar";
 
 
 const AdminSubjects = () => {

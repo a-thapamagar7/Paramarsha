@@ -5,13 +5,12 @@ import rightImg from "../../../Images/check-mark.png"
 import wrongImg from "../../../Images/cross.png"
 import VerticalNavbar from "../../../Components/Common/VerticalNavbar";
 import ComboBox from "../../../Components/Common/ComboBox";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
-const AdminUsers = () => {
+
+const AdminMockTest = () => {
     const wrongError = "text-red-600 text-xs"
     const rightError = "text-green-600 text-xs"
-    const [user, setUser] = useState([]);
+    const [question, setQuestion] = useState([]);
     const [error, setError] = useState({})
     const [editPressed, setEditPressed] = useState(false)
     const [createPressed, setCreatePressed] = useState(false)
@@ -24,22 +23,22 @@ const AdminUsers = () => {
     const [isPaidMember, setIsPaidMember] = useState(false)
     const [availableRoles, setAvailableRoles] = useState(
         [
-            {label: "User", value: "user"},
+            {label: "Question", value: "question"},
             {label: "Admin", value: "admin"},
             {label: "Counselor", value: "counselor"},
         ]
     )
 
     useEffect(() => {
-        getUsers()
+        getQuestions()
     }, [])
 
     const handleChangeRole = (value) => {
         setRole(value);
     }
 
-    const getUsers = async () => {
-        const response = await fetch("http://localhost:1447/api/getuserinfo", {
+    const getQuestions = async () => {
+        const response = await fetch("http://localhost:1447/api/getquestioninfo", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -47,30 +46,34 @@ const AdminUsers = () => {
         });
 
         const answer = await response.json();
-        setUser(answer.data)
+        setQuestion(answer.data)
     }
 
 
-    const deleteUsers = async (userId) => {
-        const response = await fetch(`http://localhost:1447/api/user/delete/${userId}`, {
+    const deleteQuestions = async (questionId) => {
+        const response = await fetch(`http://localhost:1447/api/question/delete/${questionId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
             }
         })
         const answer = await response.json();
-        if (answer.status == "success") {
-            toast.success(answer.message)
-            const newData = user.filter(item => item._id !== userId);
-            setUser(newData)
+        if (answer.message == "data_deleted") {
+            const newError = { ...error }
+            newError.message = "The data has been deleted"
+            newError.style = rightError
+            setError(newError)
+            const newData = question.filter(item => item._id !== questionId);
+            setQuestion(newData)
         }
         else {
-            toast.error(answer.message)
+            error.message = "There was an error deleting data"
+            error.style = wrongError
         }
     }
 
-    const editUsers = async (userId) => {
-        const response = await fetch(`http://localhost:1447/api/user/update/${userId}`, {
+    const editQuestions = async (questionId) => {
+        const response = await fetch(`http://localhost:1447/api/question/update/${questionId}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
@@ -79,22 +82,24 @@ const AdminUsers = () => {
                 firstName,
                 lastName,
                 email,
+                password,
                 role,
                 isPaidMember
             })
         })
         const answer = await response.json();
-        if (answer.status == "success") {
-            const index = user.findIndex(random => random._id == userId);
-            const updatedSubject = Object.assign({}, user[index], { 
+        if (answer.message == "data_updated") {
+            const index = question.findIndex(random => random._id == questionId);
+            const updatedSubject = Object.assign({}, question[index], { 
                 firstName,
                 lastName,
                 email,
+                password,
                 role,
                 isPaidMember });
-            const newState = [...user];
+            const newState = [...question];
             newState[index] = updatedSubject;
-            setUser(newState)
+            setQuestion(newState)
             setFirstName(""); 
             setLastName(""); 
             setEmail(""); 
@@ -102,15 +107,19 @@ const AdminUsers = () => {
             setRole(""); 
             setIsPaidMember(false); 
             setCreatePressed(false);
-            toast.success(answer.message)
+            const newError = { ...error }
+            newError.message = "The data has been updated"
+            newError.style = rightError
+            setError(newError)
         }
         else {
-            toast.error(answer.message)
+            error.message = "There was an error deleting data"
+            error.style = wrongError
         }
     }
 
-    const createUsers = async () => {
-        const response = await fetch("http://localhost:1447/api/user/create", {
+    const createQuestions = async () => {
+        const response = await fetch("http://localhost:1447/api/question/create", {
             method: "POST",
             //sends the data in json format
             headers: {
@@ -129,10 +138,16 @@ const AdminUsers = () => {
 
         const answer = await response.json()
         if (answer.data) {
-            toast.success(answer.message)
-            setUser(answer.data)
+            const newError = { ...error }
+            newError.message = "The question have been sucessfully added"
+            newError.style = rightError
+            setError(newError)
+            setQuestion(answer.data)
         } else {
-            toast.error(answer.message)
+            const newError = { ...error }
+            newError.message = "There was an error"
+            newError.style = wrongError
+            setError(newError)
         }
     }
 
@@ -151,55 +166,55 @@ const AdminUsers = () => {
 
     return (
         <div className="flex flex-row w-full">
-            <ToastContainer/>
             <VerticalNavbar/>
             <div className="flex w-full pt-10 px-10 flex-col pb-10">
-                <div className="text-2xl mb-10 font-bold tracking-tight spacegrotesk text-gray-500"><span>Users</span></div>
+                <div className="text-2xl mb-10 font-bold tracking-tight spacegrotesk text-gray-500"><span>Questions</span></div>
                 <div className={error.style}>{error.message}</div>
                 <table className=" text-gray-600 text-xs font-medium rounded shadow-lg lato">
                     <thead>
                         <tr className="grid border-y grid-cols-12 place-items-center h-11 bg-gray-100">
                             <th className="col-span-1">S.N.</th>
-                            <th className="col-span-1">First Name</th>
-                            <th className="col-span-2">Last Name</th>
-                            <th className="col-span-2">Email</th>
-                            <th className="col-span-1">Password</th>
-                            <th className="col-span-2">Role</th>
-                            <th className="col-span-1">isPaidMember</th>
-                            <th className="col-span-2"></th>
+                            <th className="col-span-4">Question</th>
+                            <th className="col-span-1">Subject</th>
+                            <th className="col-span-1">Answer</th>
+                            <th className="col-span-1">Option</th>
+                            <th className="col-span-1">Option</th>
+                            <th className="col-span-1">Option</th>
+                            <th className="col-span-1">Option</th>
+                            <th className="col-span-1"></th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        {user.map((value, index) => {
+                        {question.map((value, index) => {
                             return (
                                 (!editPressed || value._id != identifyID) ?
                                     <tr key={index} className={"hover:bg-yellow-100 border-y grid grid-cols-12 h-11 max-h-11 place-items-center " + `${index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}`}>
                                         <td className="col-span-1">{index + 1}</td>
-                                        <td className="col-span-1">{value.firstName}</td>
-                                        <td className="col-span-2">{value.lastName}</td>
-                                        <td className="col-span-2">{value.email}</td>
-                                        <td className="col-span-1">Hidden</td>
-                                        <td className="col-span-2">{value.role}</td>
-                                        <td className="col-span-1">{String(value.isPaidMember)}</td>
-
-                                        <td className="flex items-center gap-x-5 col-span-2">
+                                        <td className="col-span-4 overflow-hidden overflow-ellipsis whitespace-nowrap max-w-full">{value.question}</td>
+                                        <td className="col-span-1 overflow-hidden overflow-ellipsis whitespace-nowrap max-w-full">{value.subject}</td>
+                                        <td className="col-span-1 overflow-hidden overflow-ellipsis whitespace-nowrap max-w-full">{value.answer}</td>
+                                       <td key={index + "jk"} className="col-span-1 overflow-hidden overflow-ellipsis whitespace-nowrap max-w-full">{value.options[0] || ""}</td>
+                                       <td key={index + "jk"} className="col-span-1 overflow-hidden overflow-ellipsis whitespace-nowrap max-w-full">{value.options[1] || ""}</td>
+                                       <td key={index + "jk"} className="col-span-1 overflow-hidden overflow-ellipsis whitespace-nowrap max-w-full">{value.options[2] || ""}</td>
+                                       <td key={index + "jk"} className="col-span-1 overflow-hidden overflow-ellipsis whitespace-nowrap max-w-full">{value.options[3] || ""}</td>
+                                        <td className="flex items-center gap-x-5 col-span-1">
                                             <button onClick={() => showEditMode(value.firstName, value.lastName, value.email, value.role, value.isPaidMember, value._id)}><img className="h-6" src={editImg} /></button>
-                                            <button onClick={() => { deleteUsers(value._id) }}><img className="h-7" src={deleteImg} /></button>
+                                            <button onClick={() => { deleteQuestions(value._id) }}><img className="h-7" src={deleteImg} /></button>
                                         </td>
                                     </tr>
                                     :
                                     <tr key={index} className={"border-y grid grid-cols-12 h-11 max-h-11 place-items-center " + `${index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}`}>
                                         <td className="col-span-1">{index + 1}</td>
-                                        <td className="col-span-1 w-full h-full border-r"><input className="w-full h-full bg-transparent outline-none" onChange={(e) => { setFirstName(e.target.value) }} value={firstName} /></td>
-                                        <td className="col-span-2 w-full h-full border-r"><input className="w-full h-full bg-transparent outline-none" onChange={(e) => { setLastName(e.target.value) }} value={lastName} /></td>
-                                        <td className="col-span-2 w-full h-full border-r"><input className="w-full h-full bg-transparent outline-none" onChange={(e) => { setEmail(e.target.value) }} value={email} /></td>
-                                        <td className="col-span-1 w-full h-full border-r">Access Denied</td>
-                                        <td className="col-span-2 w-full h-full border-r"><ComboBox border={true} options={availableRoles} selectedValue={role} onValueChange={handleChangeRole}/></td>
-                                        <td className="col-span-1 w-full h-full border-r flex items-center justify-center">Access Denied</td>
+                                        <td className="col-span-4 w-full h-full border-r"><input className="w-full h-full bg-transparent outline-none" onChange={(e) => { setFirstName(e.target.value) }} value={firstName} /></td>
+                                        <td className="col-span-1 w-full h-full border-r"><input className="w-full h-full bg-transparent outline-none" onChange={(e) => { setLastName(e.target.value) }} value={lastName} /></td>
+                                        <td className="col-span-1 w-full h-full border-r"><input className="w-full h-full bg-transparent outline-none" onChange={(e) => { setEmail(e.target.value) }} value={email} /></td>
+                                        <td className="col-span-1 w-full h-full border-r"><input className="w-full h-full bg-transparent outline-none" onChange={(e) => { setEmail(e.target.value) }} value={email} /></td>
+                                        <td className="col-span-1 w-full h-full border-r"><input className="w-full h-full bg-transparent outline-none" onChange={(e) => { setEmail(e.target.value) }} value={email} /></td>
+                                        <td className="col-span-1 w-full h-full border-r"><input className="w-full h-full bg-transparent outline-none" onChange={(e) => { setEmail(e.target.value) }} value={email} /></td>
 
                                         <td className="flex items-center gap-x-7 col-span-2">
-                                            <button onClick={() => { editUsers(value._id); setEditPressed(false); }}><img className="h-5" src={rightImg} /></button>
+                                            <button onClick={() => { editQuestions(value._id); setEditPressed(false); }}><img className="h-5" src={rightImg} /></button>
                                             <button onClick={() => setEditPressed(false)}><img className="h-4" src={wrongImg} /></button>
                                         </td>
                                     </tr>
@@ -219,7 +234,7 @@ const AdminUsers = () => {
                                 
                         
                                 <td className="flex items-center gap-x-7 col-span-2">
-                                    <button onClick={() => { createUsers(); setFirstName(""); setLastName(""); setEmail(""); setPassword(""); setRole(""); setIsPaidMember(false); setCreatePressed(false); }}><img className="h-5" src={rightImg} /></button>
+                                    <button onClick={() => { createQuestions(); setFirstName(""); setLastName(""); setEmail(""); setPassword(""); setRole(""); setIsPaidMember(false); setCreatePressed(false); }}><img className="h-5" src={rightImg} /></button>
                                     <button onClick={() => setCreatePressed(false)}><img className="h-4" src={wrongImg} /></button>
                                 </td>
                             </tr>
@@ -239,4 +254,4 @@ const AdminUsers = () => {
     );
 }
 
-export default AdminUsers;
+export default AdminMockTest;

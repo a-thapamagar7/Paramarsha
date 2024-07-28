@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Footer from "../../../Components/Footer";
-import Navbar from "../../../Components/Navbar";
+import Footer from "../../../Components/Common/Footer";
+import Navbar from "../../../Components/Common/Navbar";
 import { useParams, useNavigate } from "react-router-dom";
 import { capitalizeFirstLetter } from "../../../utils/formatter";
-import ComboBox from "../../../Components/ComboBox";
+import ComboBox from "../../../Components/Common/ComboBox";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

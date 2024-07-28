@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom";
-import Footer from "../../../Components/Footer";
-import Navbar from "../../../Components/Navbar";
+import Footer from "../../../Components/Common/Footer";
+import Navbar from "../../../Components/Common/Navbar";
 import { capitalizeFirstLetter } from "../../../utils/formatter";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

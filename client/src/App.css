@@ -1,151 +1,155 @@
 @font-face {
-    font-family: "Manrope";
-    src: url("./Fonts/Manrope-ExtraBold.ttf");
+  font-family: "Manrope";
+  src: url("./Fonts/Manrope-ExtraBold.ttf");
 }
 
 @font-face {
-    font-family: "SpaceGrotesk";
-    src: url("./Fonts/SpaceGrotesk-Regular.ttf");
+  font-family: "SpaceGrotesk";
+  src: url("./Fonts/SpaceGrotesk-Regular.ttf");
 }
 
 @font-face {
-    font-family: "PTSerif";
-    src: url("./Fonts/PTSerif-Bold.ttf");
+  font-family: "PTSerif";
+  src: url("./Fonts/PTSerif-Bold.ttf");
 }
 
 @font-face {
-    font-family: "Inter";
-    src: url("./Fonts/Inter-Regular.ttf");
+  font-family: "Inter";
+  src: url("./Fonts/Inter-Regular.ttf");
 }
 
 @font-face {
-    font-family: "PTSerifReg";
-    src: url("./Fonts/PTSerif-Regular.ttf");
+  font-family: "PTSerifReg";
+  src: url("./Fonts/PTSerif-Regular.ttf");
 }
 
 @font-face {
-    font-family: "Lato";
-    src: url("./Fonts/Lato-Regular.ttf");
+  font-family: "Lato";
+  src: url("./Fonts/Lato-Regular.ttf");
 }
 
+body,
+html {
+  width: 100%;
+}
 
 .manrope {
-    font-family: "Manrope";
+  font-family: "Manrope";
 }
 
 .spacegrotesk {
-    font-family: "SpaceGrotesk";
+  font-family: "SpaceGrotesk";
 }
 
 .lato {
-    font-family: "Lato";
+  font-family: "Lato";
 }
 
 .ptserif {
-    font-family: "PTSerif";
+  font-family: "PTSerif";
 }
 
 .inter {
-    font-family: "Inter";
+  font-family: "Inter";
 }
 
 .register-login-font::placeholder {
-    color: black;
-    font-family: "SpaceGrotesk";
-    font-size: 14px;
+  color: black;
+  font-family: "SpaceGrotesk";
+  font-size: 14px;
 }
 
 .register-login-font:focus {
-    outline: none;
+  outline: none;
 }
 
 .inputBorder {
-    border-bottom: 1px solid #E0E0E0
+  border-bottom: 1px solid #e0e0e0;
 }
 
-
 .loginBG {
-    background-image: url("./Images/11.jpg");
-    background-color: #B5B5B5;
-    width: 100%;
-    height: 609px;
-    background-size: cover;
+  background-image: url("./Images/11.jpg");
+  background-color: #b5b5b5;
+  width: 100%;
+  height: 609px;
+  background-size: cover;
 }
 
 .login21BG {
-    background-image: url("./Images/shayna.jpg");
-    width: 100%;
-    background-size: cover;
+  background-image: url("./Images/shayna.jpg");
+  width: 100%;
+  background-size: cover;
 }
 
 .login2BG {
-    width: 800px;
-    height: 550px;
-    background-color: white;
+  width: 800px;
+  height: 550px;
+  background-color: white;
 }
 
 .maincard {
-    height: 500px;
+  height: 500px;
 }
 
 .searchBorder {
-    border-left: 2px solid #7B6D6D;
-    border-top: 2px solid #7B6D6D;
-    border-bottom: 2px solid #7B6D6D;
-    border-top-left-radius: 24px;
-    border-bottom-left-radius: 24px;
+  border-left: 2px solid #7b6d6d;
+  border-top: 2px solid #7b6d6d;
+  border-bottom: 2px solid #7b6d6d;
+  border-top-left-radius: 24px;
+  border-bottom-left-radius: 24px;
 }
 
 .searchBorder2 {
-    border-right: 2px solid #7B6D6D;
-    border-top: 2px solid #7B6D6D;
-    border-bottom: 2px solid #7B6D6D;
-    border-top-right-radius: 24px;
-    border-bottom-right-radius: 24px;
+  border-right: 2px solid #7b6d6d;
+  border-top: 2px solid #7b6d6d;
+  border-bottom: 2px solid #7b6d6d;
+  border-top-right-radius: 24px;
+  border-bottom-right-radius: 24px;
 }
 
 .searchBorder2::placeholder {
-    font-family: "Inter";
-    font-size: 23px;
-
+  font-family: "Inter";
+  font-size: 23px;
 }
 
 .searchBorder2:focus {
-    outline: none;
+  outline: none;
 }
 
-.productCard, .featureCard, .subjectCard { 
-    transition: all .14s ease-in-out; 
+.productCard,
+.featureCard,
+.subjectCard {
+  transition: all 0.14s ease-in-out;
 }
 
-.quizCard { 
-    transition: all .0.6s ease-in-out; 
-}
-    
-.productCard:hover, .featureCard:hover, .subjectCard:hover, .quizCard:hover { 
-    transform: scale(1.17); 
+.quizCard {
+  transition: all 0.6s ease-in-out;
 }
 
-.infoCard:hover { 
-    transform: scale(1.06); 
+.productCard:hover,
+.featureCard:hover,
+.subjectCard:hover,
+.quizCard:hover {
+  transform: scale(1.17);
 }
 
-.infoCard { 
-    transition: all .14s ease-in-out; 
+.infoCard:hover {
+  transform: scale(1.06);
+}
+
+.infoCard {
+  transition: all 0.14s ease-in-out;
 }
 
 .question::placeholder {
-    font-size: 30px;
-    justify-content: center;
+  font-size: 30px;
+  justify-content: center;
 }
 
 .borderM {
-    border: solid 2px grey;
+  border: solid 2px grey;
 }
 
-
-    
-.joinUs:hover { 
-    text-decoration: underline;
+.joinUs:hover {
+  text-decoration: underline;
 }
-

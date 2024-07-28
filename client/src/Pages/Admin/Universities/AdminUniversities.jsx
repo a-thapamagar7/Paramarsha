@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import editImg from "../../../Images/edit.png"
 import deleteImg from "../../../Images/delete.png"
 import { useNavigate } from "react-router-dom";
-import VerticalNavbar from "../../../Components/VerticalNavbar";
+import VerticalNavbar from "../../../Components/Common/VerticalNavbar";
 
 const AdminUniversties = () => {
     const navigate = useNavigate()
