@@ -102,7 +102,7 @@ const Homepage = () => {
         </div>
         {/* Features */}
         <div className="mt-20">
-          <div className="text-5xl font-sans font-extrabold tracking-tight text-gray-900 w-full">
+          <div className="text-5xl flex-wrap font-sans font-extrabold tracking-tight text-gray-900 w-full">
             <span className="">What We </span>
             <span className="text-blue-700">Offer</span>
           </div>
