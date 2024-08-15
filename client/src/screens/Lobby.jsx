@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useSocket } from "../context/SocketProvider";
 
 const LobbyScreen = () => {
-  const {id} = useParams()
+  const { id } = useParams();
   const [email, setEmail] = useState("");
   const [room, setRoom] = useState("");
 
@@ -27,25 +27,27 @@ const LobbyScreen = () => {
   );
 
   const GetMeeting = async () => {
-    if (localStorage.getItem('token')) {
-      const response = await fetch(`http://localhost:1447/api/meetingdetails/${id}`, {
+    if (localStorage.getItem("token")) {
+      const response = await fetch(
+        `http://localhost:1447/api/meetingdetails/${id}`,
+        {
           method: "GET",
           headers: {
-            'x-access-token': localStorage.getItem('token'),
-            "Content-Type": "application/json"
-          }
-      })
-      const answer = await response.json()
-      console.log(answer)
-      setEmail(answer.user.email)
-      setRoom(answer.data.roomCode)
-  }
+            "x-access-token": localStorage.getItem("token"),
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const answer = await response.json();
+      console.log(answer);
+      setEmail(answer.user.email);
+      setRoom(answer.data.roomCode);
+    }
+  };
 
-}
-
-  useEffect(()=>{
-    GetMeeting()
-  },[])
+  useEffect(() => {
+    GetMeeting();
+  }, []);
 
   useEffect(() => {
     socket.on("room:join", handleJoinRoom);
@@ -55,14 +57,21 @@ const LobbyScreen = () => {
   }, [socket, handleJoinRoom]);
 
   return (
-    <div className="h-screen w-screen flex justify-center items-center">
-      <div className="flex items-center flex-col gap-y-7">
-        <h1 className="spacegrotesk text-2xl">Lobby</h1>
-        <form className="flex flex-col items-center gap-y-7" onSubmit={handleSubmitForm}>
-          <div className="grid grid-flow-row grid-cols-12 text-lg">
-            <label className="col-span-5" htmlFor="email">Email ID:</label>
+    <div className="h-screen w-full flex justify-center items-center">
+      <div className="flex items-center w-full flex-col gap-y-7">
+        <form
+          className="flex flex-col items-center w-[30rem] gap-y-10"
+          onSubmit={handleSubmitForm}
+        >
+          <h1 className=" text-5xl font-extrabold">
+            Lob<span className="text-blue-700">by</span>
+          </h1>
+          <div className="grid grid-flow-row grid-cols-12 w-full text-lg">
+            <label className="col-span-4 justify-start" htmlFor="email">
+              Email ID:
+            </label>
             <div
-              className="col-span-7"
+              className="col-span-8 justify-start"
               type="email"
               id="email"
               onChange={(e) => setEmail(e.target.value)}
@@ -71,9 +80,11 @@ const LobbyScreen = () => {
             </div>
           </div>
           <div className="grid grid-flow-row grid-cols-12 w-full text-lg">
-            <label className="col-span-5" htmlFor="room">Room Number:</label>
+            <label className="col-span-4" htmlFor="room">
+              Room Number:
+            </label>
             <div
-              className="col-span-7"
+              className="col-span-8"
               type="text"
               id="room"
               onChange={(e) => setRoom(e.target.value)}
@@ -81,11 +92,12 @@ const LobbyScreen = () => {
               {room}
             </div>
           </div>
-          
-          <button className="w-fit px-5 self-start py-2 rounded text-white spacegrotesk bg-blue-700 ">Join</button>
+
+          <button className="w-fit px-5 self-start py-2 rounded text-white spacegrotesk bg-blue-700 ">
+            Join
+          </button>
         </form>
       </div>
-      
     </div>
   );
 };

@@ -1,20 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import { BrowserRouter } from 'react-router-dom';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import { BrowserRouter } from "react-router-dom";
 import { SocketProvider } from "./context/SocketProvider";
-import './index.css';
+import "./index.css";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    
-      <BrowserRouter>
+    <BrowserRouter>
       <SocketProvider>
-      <App />
+        <App />
       </SocketProvider>
-        
-      </BrowserRouter>
-    
+    </BrowserRouter>
   </React.StrictMode>
 );

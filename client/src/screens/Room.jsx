@@ -2,15 +2,36 @@ import React, { useEffect, useCallback, useState } from "react";
 import ReactPlayer from "react-player";
 import peer from "../service/peer";
 import { useSocket } from "../context/SocketProvider";
+import endCallIMG from "../Images/circle.png";
+import { useNavigate } from "react-router-dom";
 
 const RoomPage = () => {
   const socket = useSocket();
   const [remoteSocketId, setRemoteSocketId] = useState(null);
+  const [status, setStatus] = useState([]);
   const [myStream, setMyStream] = useState();
+  const [called, setCalled] = useState(false);
   const [remoteStream, setRemoteStream] = useState();
 
+  const navigate = useNavigate();
+
+  console.log(remoteSocketId, remoteStream, myStream, called);
+
+  useEffect(() => {
+    if (remoteSocketId && !remoteStream && !myStream) {
+      handleCallUser();
+    }
+  }, [remoteSocketId]);
+
+  useEffect(() => {
+    if (remoteSocketId && remoteStream && myStream && !called) {
+      sendStreams();
+    }
+  }, []);
+
   const handleUserJoined = useCallback(({ email, id }) => {
-    console.log(`Email ${email} joined room`);
+    console.log(`${email} joined room`);
+    setStatus([...status, `Email ${email} joined room`]);
     setRemoteSocketId(id);
   }, []);
 
@@ -22,6 +43,7 @@ const RoomPage = () => {
     const offer = await peer.getOffer();
     socket.emit("user:call", { to: remoteSocketId, offer });
     setMyStream(stream);
+    setCalled(true);
   }, [remoteSocketId, socket]);
 
   const handleIncommingCall = useCallback(
@@ -81,7 +103,6 @@ const RoomPage = () => {
   useEffect(() => {
     peer.peer.addEventListener("track", async (ev) => {
       const remoteStream = ev.streams;
-      console.log("GOT TRACKS!!");
       setRemoteStream(remoteStream[0]);
     });
   }, []);
@@ -110,47 +131,52 @@ const RoomPage = () => {
   ]);
 
   return (
-    <div className="grid grid-cols-12 px-4 h-full w-screen place-items-center">
-      <h1 className="col-span-6">Remote Stream</h1>
-      <h1 className="col-span-6">My Stream</h1>
-      {remoteStream && (
-        <>
-          
+    <div className="w-full h-screen flex flex-row bg-[#171616]">
+      <div className="h-full pl-[3rem] relative min-w-[50%]">
+        {remoteStream && (
           <ReactPlayer
             playing
             muted
+            id={"remoteStream"}
             url={remoteStream}
-            height="400px"
-            width="500px"
-            className="col-span-6"
+            width="100%"
+            height="100%"
           />
-        </>
-      )}
-      {myStream && (
-        <>
-          
-          <ReactPlayer
-            playing
-            muted
-            url={myStream}
-            height="400px"
-            width="500px"
-            className="col-span-6"
-          />
-        </>
-      )}
-      
-      <div className="col-span-12 flex flex-row gap-x-10">
-        {myStream && <button className="bg-blue-700 h-fit text-sm w-fit px-4 py-2 text-white spacegrotesk" onClick={sendStreams}>Send Stream</button>}
-        {remoteSocketId && <button className="bg-blue-700 text-sm h-fit w-fit px-4 py-2 text-white spacegrotesk" onClick={handleCallUser}>CALL</button>}
+        )}
+        {myStream && (
+          <div className="absolute h-[8rem] bottom-3 right-3">
+            <ReactPlayer
+              id={"mystream"}
+              playing
+              muted
+              url={myStream}
+              height="100%"
+              width="100%"
+            />
+          </div>
+        )}
       </div>
-      <div className="col-span-12 flex flex-col">
-        <h1>Updates</h1>
-        <h4>{remoteSocketId ? "Connected" : "No one in room"}</h4>
+      <div className="flex justify-center items-center w-[3.5rem] border-r border-gray-400">
+        <img
+          src={endCallIMG}
+          onClick={() => {
+            navigate("/meeting");
+          }}
+          className="w-[2.5rem] hover:scale-110 ease-in-out duration-150 cursor-pointer"
+        />
       </div>
-      
+      <div className="flex flex-1 flex-row bg-white p-5">
+        <div className="col-span-12 flex flex-col text-black">
+          <div className="font-extrabold text-3xl pb-7">
+            Up<span className="text-blue-700">dates</span>
+          </div>
+          <h4>{!remoteSocketId && "No one in room"}</h4>
+          {status.map((value) => (
+            <div className="spacegrotesk text-xs text-slate-700">{value}</div>
+          ))}
+        </div>
+      </div>
     </div>
-    
   );
 };
 

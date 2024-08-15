@@ -2,9 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Login from "./Pages/Registration/Login";
 import Register from "./Pages/Registration/Register";
-// import VideoChat from "./Components/VideoChat";
-import './App.css';
-// import LandingPage from "./Components/LandingPage";
+import "./App.css";
 import Homepage from "./Pages/Homepage/Homepage";
 import CreateMockTest from "./Pages/CreateMultipleMockQuestions/CreateMockTest";
 import Mocktest from "./Pages/TakeMock/Mocktest";
@@ -45,25 +43,90 @@ const App = () => {
         <Route path="/admin/colleges/add/:id" element={<CreateCollege />} />
         <Route path="/admin/courses/update/:id" element={<CreateCourse />} />
         <Route path="/admin/universities/add" element={<CreateUniversity />} />
-        <Route path="/admin/universities/add/:id" element={<CreateUniversity />} />
+        <Route
+          path="/admin/universities/add/:id"
+          element={<CreateUniversity />}
+        />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/mocktest" element={<CreateMockTest />} />
-        <Route path="/test" element={<PaidMember><Mocktest /></PaidMember>} />
-        <Route path="/admin/subjects" element={<ProtectedRoute role="admin"><AdminSubjects /></ProtectedRoute>} />
-        <Route path="/admin/courses" element={<ProtectedRoute role="admin"><AdminCourses /></ProtectedRoute>} />
-        <Route path="/admin/universities" element={<ProtectedRoute role="admin"><AdminUniversties /></ProtectedRoute>} />
-        <Route path="/admin/questions" element={<ProtectedRoute role="admin"><AdminMockTest /></ProtectedRoute>} />
+        <Route
+          path="/test"
+          element={
+            <PaidMember>
+              <Mocktest />
+            </PaidMember>
+          }
+        />
+        <Route
+          path="/admin/subjects"
+          element={
+            <ProtectedRoute role="admin">
+              <AdminSubjects />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/courses"
+          element={
+            <ProtectedRoute role="admin">
+              <AdminCourses />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/universities"
+          element={
+            <ProtectedRoute role="admin">
+              <AdminUniversties />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/questions"
+          element={
+            <ProtectedRoute role="admin">
+              <AdminMockTest />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/admin/users" element={<AdminUsers />} />
-        <Route path="/admin/payments" element={<ProtectedRoute role="admin"><AdminPayments /></ProtectedRoute>} />
-        <Route path="/admin/colleges" element={<ProtectedRoute role="admin"><AdminColleges /></ProtectedRoute>} />
-        <Route path="/admin/reviews" element={<ProtectedRoute role="admin"><AdminReviews /></ProtectedRoute>} />
+        <Route
+          path="/admin/payments"
+          element={
+            <ProtectedRoute role="admin">
+              <AdminPayments />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/colleges"
+          element={
+            <ProtectedRoute role="admin">
+              <AdminColleges />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/reviews"
+          element={
+            <ProtectedRoute role="admin">
+              <AdminReviews />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/lobby/:id" element={<LobbyScreen />} />
         <Route path="/quiz" element={<Quiz />} />
         <Route path="/room/:roomId" element={<RoomPage />} />
         <Route path="/video" element={<VideoChat />} />
-        <Route path="/meeting" element={<PaidMember><ScheduleMeeting /></PaidMember>} />
-        <Route path="/epay" element={
-          <EPayment />} />
+        <Route
+          path="/meeting"
+          element={
+            <PaidMember>
+              <ScheduleMeeting />
+            </PaidMember>
+          }
+        />
+        <Route path="/epay" element={<EPayment />} />
       </Routes>
     </div>
   );

@@ -1,14 +1,14 @@
-import React from "react"
-import star from "../../Images/star.png"
-import { useNavigate } from "react-router-dom"
+import React from "react";
+import star from "../../Images/star.png";
+import { useNavigate } from "react-router-dom";
 
-const Contentcards = props => {
-  const navigate = useNavigate()
+const Contentcards = (props) => {
+  const navigate = useNavigate();
   return (
     <div
       onClick={() => {
-        navigate("/info/" + props.name)
-        window.scrollTo(0, 0)
+        navigate("/info/" + props.name);
+        window.scrollTo(0, 0);
       }}
       className="productCard flex flex-col h-fit col-span-12 pb-3 gap-x-5 rounded-md shadow-2xl lg:col-span-4"
       style={{ backgroundColor: "#f3f4f6" }}
@@ -17,7 +17,7 @@ const Contentcards = props => {
         <img className="w-full rounded-t-md" src={props.image} />
       </div>
       <div className="flex flex-col gap-y-2 px-5 pt-2 w-full">
-        <div className="lato tracking-tighter text-xl text-center">
+        <div className="lato tracking-tighter text-xl text-left">
           {props.name}
         </div>
         {props.overallRating ? (
@@ -52,7 +52,7 @@ const Contentcards = props => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Contentcards
+export default Contentcards;
