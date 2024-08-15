@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react"
-import Contentcards from "../Common/Contentcards"
-import { useNavigate } from "react-router-dom"
+import React, { useEffect, useState } from "react";
+import Contentcards from "../Common/Contentcards";
+import { useNavigate } from "react-router-dom";
 
 const Universitysection = () => {
-  const navigate = useNavigate()
-  const [content, setContent] = useState([])
+  const navigate = useNavigate();
+  const [content, setContent] = useState([]);
 
   useEffect(() => {
-    getDataInfo(setContent, "http://localhost:1447/api/gethighestuniversity")
-  }, [])
+    getDataInfo(
+      setContent,
+      `${process.env.REACT_APP_API_URL}/api/gethighestuniversity`
+    );
+  }, []);
 
   const getDataInfo = async (setData, url) => {
     const response = await fetch(url, {
@@ -16,11 +19,11 @@ const Universitysection = () => {
       headers: {
         "Content-Type": "application/json",
       },
-    })
+    });
 
-    const answer = await response.json()
-    setData(answer.data)
-  }
+    const answer = await response.json();
+    setData(answer.data);
+  };
 
   return (
     <div className="w-full flex flex-col mt-28 gap-y-7">
@@ -40,8 +43,8 @@ const Universitysection = () => {
         </div>
         <div
           onClick={() => {
-            navigate("/content/universities")
-            window.scrollTo(0, 0)
+            navigate("/content/universities");
+            window.scrollTo(0, 0);
           }}
           className="text-gray-500 text-lg cursor-pointer"
         >
@@ -59,11 +62,11 @@ const Universitysection = () => {
                 items={value?.subjects}
               />
             </React.Fragment>
-          )
+          );
         })}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Universitysection
+export default Universitysection;

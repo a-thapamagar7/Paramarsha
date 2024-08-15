@@ -11,7 +11,7 @@ const Login = () => {
 
   const loginUser = async (event) => {
     event.preventDefault();
-    const response = await fetch("http://localhost:1447/api/login", {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/login`, {
       method: "POST",
       //sends the data in json format
       headers: {

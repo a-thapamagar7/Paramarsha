@@ -30,6 +30,7 @@ import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import PaidMember from "./Components/Common/PaidMember";
 
 const App = () => {
+  console.log(process.env.REACT_APP_API_URL);
   return (
     <div className="app">
       <Routes>

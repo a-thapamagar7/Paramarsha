@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 
 function PaidMember({ children }) {
   const [authorized, setAuthorized] = useState(false);
@@ -8,13 +8,16 @@ function PaidMember({ children }) {
   useEffect(() => {
     if (localStorage.getItem("token")) {
       const fetchData = async () => {
-        const response = await fetch(`http://localhost:1447/api/user/getdetails`, {
-          method: "GET",
-          headers: {
-            'x-access-token': localStorage.getItem('token'),
-            "Content-Type": "application/json"
+        const response = await fetch(
+          `${process.env.REACT_APP_API_URL}/api/user/getdetails`,
+          {
+            method: "GET",
+            headers: {
+              "x-access-token": localStorage.getItem("token"),
+              "Content-Type": "application/json",
+            },
           }
-        });
+        );
 
         const answer = await response.json();
         if (answer.data.isPaidMember || answer.role != "user") {

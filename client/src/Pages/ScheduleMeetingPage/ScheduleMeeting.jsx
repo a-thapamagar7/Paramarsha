@@ -29,7 +29,7 @@ const ScheduleMeeting = () => {
 
   const DeleteMeeting = async (id) => {
     const response = await fetch(
-      `http://localhost:1447/api/meeting/delete/${id}`,
+      `${process.env.REACT_APP_API_URL}/api/meeting/delete/${id}`,
       {
         method: "DELETE",
         headers: {
@@ -48,7 +48,7 @@ const ScheduleMeeting = () => {
 
   const AcceptMeeting = async (id) => {
     const response = await fetch(
-      `http://localhost:1447/api/meeting/accept/${id}`,
+      `${process.env.REACT_APP_API_URL}/api/meeting/accept/${id}`,
       {
         method: "GET",
         headers: {
@@ -76,18 +76,21 @@ const ScheduleMeeting = () => {
 
   const SendMeeting = async () => {
     const scheduledDate = `${date}T${time}:00.000Z`;
-    const response = await fetch("http://localhost:1447/api/meeting/create", {
-      method: "POST",
-      //sends the data in json format
-      headers: {
-        "x-access-token": localStorage.getItem("token"),
-        "Content-Type": "application/json",
-      },
-      //sends the states to the server
-      body: JSON.stringify({
-        scheduledDate,
-      }),
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/api/meeting/create`,
+      {
+        method: "POST",
+        //sends the data in json format
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+          "Content-Type": "application/json",
+        },
+        //sends the states to the server
+        body: JSON.stringify({
+          scheduledDate,
+        }),
+      }
+    );
 
     const data = await response.json();
     if (data.status == "success") {
@@ -100,14 +103,17 @@ const ScheduleMeeting = () => {
 
   const GetMeetings = async () => {
     if (localStorage.getItem("token")) {
-      const response = await fetch("http://localhost:1447/api/getmeetings", {
-        method: "GET",
-        //sends the data in json format
-        headers: {
-          "x-access-token": localStorage.getItem("token"),
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/getmeetings`,
+        {
+          method: "GET",
+          //sends the data in json format
+          headers: {
+            "x-access-token": localStorage.getItem("token"),
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const data = await response.json();
       setUser(data.user);

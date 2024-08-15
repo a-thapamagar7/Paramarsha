@@ -29,7 +29,7 @@ const LobbyScreen = () => {
   const GetMeeting = async () => {
     if (localStorage.getItem("token")) {
       const response = await fetch(
-        `http://localhost:1447/api/meetingdetails/${id}`,
+        `${process.env.REACT_APP_API_URL}/api/meetingdetails/${id}`,
         {
           method: "GET",
           headers: {

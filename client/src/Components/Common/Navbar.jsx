@@ -14,14 +14,17 @@ const Navbar = () => {
 
   const GetUserInfo = async () => {
     if (localStorage.getItem("token")) {
-      const response = await fetch("http://localhost:1447/api/user/details", {
-        method: "GET",
-        //sends the data in json format
-        headers: {
-          "x-access-token": localStorage.getItem("token"),
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/user/details`,
+        {
+          method: "GET",
+          //sends the data in json format
+          headers: {
+            "x-access-token": localStorage.getItem("token"),
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const data = await response.json();
       if (data.data) {

@@ -1,59 +1,62 @@
-import { useState } from "react"
-import React from "react"
-import { useEffect } from "react"
-import { useNavigate } from "react-router-dom"
-import Navbar from "../../Components/Common/Navbar"
-import searchIcon from "../../Images/search-icon.png"
-import mainImage from "../../Images/image.png"
-import mainImage1 from "../../Images/image1.png"
-import mainImage2 from "../../Images/image2.png"
-import mainImage3 from "../../Images/image3.png"
-import mainImage4 from "../../Images/image4.png"
-import test from "../../Images/test.png"
-import quiz from "../../Images/quiz.png"
-import review from "../../Images/review.png"
-import call from "../../Images/video-call.png"
-import college from "../../Images/college.png"
-import Collegesection from "../../Components/HomepageSections/Collegesection"
-import Universitysection from "../../Components/HomepageSections/Universitysection"
-import Footer from "../../Components/Common/Footer"
-import Features from "../../Components/HomepageSections/Features"
-import Subjectcard from "../../Components/Common/Subjectcard"
+import { useState } from "react";
+import React from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Navbar from "../../Components/Common/Navbar";
+import searchIcon from "../../Images/search-icon.png";
+import mainImage from "../../Images/image.png";
+import mainImage1 from "../../Images/image1.png";
+import mainImage2 from "../../Images/image2.png";
+import mainImage3 from "../../Images/image3.png";
+import mainImage4 from "../../Images/image4.png";
+import test from "../../Images/test.png";
+import quiz from "../../Images/quiz.png";
+import review from "../../Images/review.png";
+import call from "../../Images/video-call.png";
+import college from "../../Images/college.png";
+import Collegesection from "../../Components/HomepageSections/Collegesection";
+import Universitysection from "../../Components/HomepageSections/Universitysection";
+import Footer from "../../Components/Common/Footer";
+import Features from "../../Components/HomepageSections/Features";
+import Subjectcard from "../../Components/Common/Subjectcard";
 
 const Homepage = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [imageUrls] = useState([
     mainImage,
     mainImage1,
     mainImage2,
     mainImage3,
     mainImage4,
-  ])
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [subject, setSubject] = useState([])
-  const [searchValue, setSearchValue] = useState([])
+  ]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [subject, setSubject] = useState([]);
+  const [searchValue, setSearchValue] = useState([]);
 
   function updateIndex() {
-    setCurrentIndex(currentIndex => (currentIndex + 1) % imageUrls.length)
+    setCurrentIndex((currentIndex) => (currentIndex + 1) % imageUrls.length);
   }
 
   useEffect(() => {
-    getSubjects()
-    const intervalId = setInterval(updateIndex, 1200) // Change image every 5 seconds
-    return () => clearInterval(intervalId) // Clean up the interval timer
-  }, [])
+    getSubjects();
+    const intervalId = setInterval(updateIndex, 1200); // Change image every 5 seconds
+    return () => clearInterval(intervalId); // Clean up the interval timer
+  }, []);
 
   const getSubjects = async () => {
-    const response = await fetch("http://localhost:1447/api/getsubjects", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/api/getsubjects`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-    const answer = await response.json()
-    setSubject(answer.data)
-  }
+    const answer = await response.json();
+    setSubject(answer.data);
+  };
 
   return (
     <>
@@ -75,9 +78,9 @@ const Homepage = () => {
               professional success. Welcome to our website "Paramarsha".
             </div>
             <form
-              onSubmit={e => {
-                e.preventDefault()
-                navigate(`/content/${searchValue}`)
+              onSubmit={(e) => {
+                e.preventDefault();
+                navigate(`/content/${searchValue}`);
               }}
               className="w-full flex flex-row mt-10"
             >
@@ -86,8 +89,8 @@ const Homepage = () => {
               </button>
               <input
                 value={searchValue}
-                onChange={e => {
-                  setSearchValue(e.target.value)
+                onChange={(e) => {
+                  setSearchValue(e.target.value);
                 }}
                 className="w-11/12 py-1 searchBorder2 inter pr-2"
                 style={{ fontSize: "23px" }}
@@ -149,7 +152,7 @@ const Homepage = () => {
           </div>
           <div className="w-full grid grid-cols-12 justify-between">
             {subject.map((value, index) => {
-              return <Subjectcard name={value} key={index} />
+              return <Subjectcard name={value} key={index} />;
             })}
           </div>
         </div>
@@ -158,7 +161,7 @@ const Homepage = () => {
       </div>
       <Footer className="mt-20" />
     </>
-  )
-}
+  );
+};
 
-export default Homepage
+export default Homepage;
