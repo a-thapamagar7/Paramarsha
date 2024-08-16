@@ -192,7 +192,11 @@ router.delete("/meeting/delete/:id", async (req, res) => {
                    <li>Date: ${MakeNormalDate(
                      meetingCurrent.scheduledDate
                    )}</li>
-                   <li>Link: <a href="http://localhost:3000/meeting">http://localhost:3000/meeting</a></li>
+                   <li>Link: <a href="${
+                     process.env.REACT_APP_CLIENT_URL
+                   }/meeting">${
+      process.env.REACT_APP_CLIENT_URL
+    }/meeting"</a></li>
                    <li>Requested By: ${
                      meetingCurrent?.user?.firstName +
                      " " +
@@ -249,7 +253,11 @@ router.get("/acceptmeeting/:id", async (req, res) => {
                    <li>Date: ${MakeNormalDate(
                      meetingCurrent.scheduledDate
                    )}</li>
-                   <li>Link: <a href="http://localhost:3000/meeting">http://localhost:3000/meeting</a></li>
+                   <li>Link: <a href="${
+                     process.env.REACT_APP_CLIENT_URL
+                   }/meeting">${
+        process.env.REACT_APP_CLIENT_URL
+      }/meeting"</a></li>
                    <li>Requested By: ${
                      meetingCurrent.user.firstName +
                      " " +

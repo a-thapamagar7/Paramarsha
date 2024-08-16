@@ -15,8 +15,6 @@ const RoomPage = () => {
 
   const navigate = useNavigate();
 
-  console.log(remoteSocketId, remoteStream, myStream, called);
-
   useEffect(() => {
     if (remoteSocketId && !remoteStream && !myStream) {
       handleCallUser();
