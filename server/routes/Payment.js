@@ -21,8 +21,8 @@ router.post("/epay", authMiddleware("user"), async (req, res) => {
       return res.json({ status: "error", message: "user_paid" });
     }
     const data = {
-      return_url: "http://localhost:3000/epay",
-      website_url: "http://localhost:3000/",
+      return_url: `${process.env.REACT_APP_CLIENT_URL}/epay`,
+      website_url: process.env.REACT_APP_CLIENT_URL,
       amount: 20000,
       purchase_order_id: newID,
       purchase_order_name: "premium",
@@ -33,8 +33,8 @@ router.post("/epay", authMiddleware("user"), async (req, res) => {
     };
     const headers = {
       Authorization: "Key d6dd52c5bd0842c99e38a9475bd243e4",
-      "Access-Control-Allow-Origin": "http://localhost:3000/",
-      "Access-Control-Allow-Origin": "http://localhost:1447/",
+      "Access-Control-Allow-Origin": process.env.REACT_APP_CLIENT_URL,
+      "Access-Control-Allow-Origin": process.env.REACT_APP_API_URL,
     };
     request.post(
       {
