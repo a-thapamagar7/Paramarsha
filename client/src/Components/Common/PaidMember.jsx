@@ -20,9 +20,11 @@ function PaidMember({ children }) {
         );
 
         const answer = await response.json();
-        if (answer.data.isPaidMember || answer.role != "user") {
+        if (answer.data.isPaidMember || answer.data.role != "user") {
           setAuthorized(true);
+          console.log("authorized");
         }
+        console.log(authorized);
 
         setLoading(false);
       };
