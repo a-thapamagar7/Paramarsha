@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 const authMiddleware = require("./authMiddleware");
@@ -32,7 +33,7 @@ router.post("/epay", authMiddleware("user"), async (req, res) => {
       },
     };
     const headers = {
-      Authorization: "Key d6dd52c5bd0842c99e38a9475bd243e4",
+      Authorization: `Key d6dd52c5bd0842c99e38a9475bd243e4`,
       "Access-Control-Allow-Origin": process.env.REACT_APP_CLIENT_URL,
       "Access-Control-Allow-Origin": process.env.REACT_APP_API_URL,
     };
