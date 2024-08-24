@@ -18,7 +18,8 @@ const socketidToEmailMap = new Map();
 
 const server = require("http").createServer(app);
 const corsOptions = {
-  origin: REACT_APP_CLIENT_URL,
+  origin: process.env.REACT_APP_CLIENT_URL,
+  methods: ["GET", "POST", "PUT", "DELETE"],
 };
 
 app.use(cors(corsOptions));
@@ -61,8 +62,6 @@ io.on("connection", (socket) => {
     io.to(to).emit("peer:nego:final", { from: socket.id, ans });
   });
 });
-
-app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("Running");
