@@ -17,13 +17,21 @@ const emailToSocketIdMap = new Map();
 const socketidToEmailMap = new Map();
 
 const server = require("http").createServer(app);
-const cors = require("cors");
+const corsOptions = {
+  origin: REACT_APP_CLIENT_URL,
+};
+
+app.use(cors(corsOptions));
 
 const io = require("socket.io")(server, {
-  cors: {
-    origin: process.env.REACT_APP_API_URL,
-    methods: ["GET", "POST"],
-    credentials: true,
+  handlePreflightRequest: (req, res) => {
+    const headers = {
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
+      "Access-Control-Allow-Origin": req.headers.origin, //or the specific origin you want to give access to,
+      "Access-Control-Allow-Credentials": true,
+    };
+    res.writeHead(200, headers);
+    res.end();
   },
 });
 
