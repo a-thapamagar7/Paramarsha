@@ -25,7 +25,7 @@ const RoomPage = () => {
     if (remoteSocketId && remoteStream && myStream && !called) {
       sendStreams();
     }
-  }, []);
+  }, [remoteSocketId]);
 
   const handleUserJoined = useCallback(({ email, id }) => {
     console.log(`${email} joined room`);

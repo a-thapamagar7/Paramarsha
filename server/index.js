@@ -9,10 +9,16 @@ const socketidToEmailMap = new Map();
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server, {
+const io = new socketIo.Server(server, {
   cors: {
-    origin: process.env.REACT_APP_CLIENT_URL,
-    methods: ["GET", "POST"],
+    origins: [process.env.REACT_APP_CLIENT_URL],
+  },
+  handlePreflightRequest: (req, res) => {
+    res.writeHead(200, {
+      "access-control-allow-origin": "*",
+      "access-control-allow-methods": "GET,POST",
+    });
+    res.end();
   },
 });
 
