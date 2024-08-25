@@ -10,6 +10,7 @@ const socketidToEmailMap = new Map();
 const app = express();
 const server = http.createServer(app);
 const io = new socketIo.Server(server, {
+  addTrailingSlash: false,
   cors: {
     origins: [process.env.REACT_APP_CLIENT_URL],
   },
